@@ -1,0 +1,69 @@
+regisztráció és bejelentkezés:
+- angular form
+- email, jelszó bekérése, regisztrációkor név is
+
+dashboard:
+- összegző nézet projektekről, ügyekről
+
+projekt lista:
+- meglévő projektek listázása
+- új projekt hozzáadása
+- projektek módosítása, törlése
+- navigáció egy projekt részleteihez
+
+projekt részletei:
+- projekt adatai (név, leírás, státusz, határidő, résztvevők)
+- hozzárendelt ügyek listázása
+- új ügy hozzáadása
+
+ügyek listája egy projekten belül:
+- meglévő ügyek listázása
+- ügy állapota (not started, in progress, done)
+- ügy prioritása (highest, high, medium, low, lowest)
+- navigáció az ügy részleteihez
+
+ügy részletei
+- ügy adatai (cím, leírás, létrehozás dátuma, állapot, prioritás, hozzárendelt felhasználó, létrehozó felhasználó)
+- ügy állapotának és egyéb adatainak módosítása
+- hozzászólások listázása, hozzáadás opció
+
+felhasználók listája (admin)
+- felhasználók listája, keresés
+- jogosultságkezelés
+
+
+Adatmodellek:
+- User
+- Project
+- Task
+- Comment
+
+Komponensek:
+- LoginComponent
+- DashboardComponent
+- ProfileComponent
+- ProjectListComponent
+- ProjectDetailsComponent
+- TaskListComponent
+- TaskDetailsComponent
+- UserListComponent
+
+Reszponzív, mobile-first felület
+
+Attribútum direktívák (2)
+
+Vezérlési folyamatok (2)
+
+Adatátadás szülő és gyermek komponensek között (1 input, 1 output)
+- ProjectListComponent -> ProjectDetailsComponent @Input
+- TaskListComponent -> TaskDetailsComponent @Input
+- form adatok küldése @Output
+
+Material elemek (10)
+
+Adatbevitel Angular form-al (2)
+- Bejelentkezés / regisztráció
+- Új projekt/ügy létrehozása
+
+Saját Pipe osztály (1)
+- pl. dátum formázása
