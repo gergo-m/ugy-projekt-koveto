@@ -10,10 +10,12 @@ import { TasklistComponent } from './pages/tasklist/tasklist.component';
 import { UserlistComponent } from './pages/userlist/userlist.component';
 import { MenuComponent } from './shared/menu/menu.component';
 import { NgIf } from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, DashboardComponent, LoginComponent, ProfileComponent, ProjectdetailsComponent, ProjectlistComponent, TaskdetailsComponent, TasklistComponent, UserlistComponent, MenuComponent, NgIf],
+  imports: [RouterOutlet, DashboardComponent, LoginComponent, ProfileComponent, ProjectdetailsComponent, ProjectlistComponent, TaskdetailsComponent, TasklistComponent, UserlistComponent, MenuComponent, NgIf, NgbModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -21,4 +23,11 @@ export class AppComponent {
   title = 'ugy-projekt-koveto';
 
   page = "profile";
+
+  constructor(private modalService: NgbModal) {
+  }
+
+  public open(modal: any): void {
+    this.modalService.open(modal);
+  }
 }
