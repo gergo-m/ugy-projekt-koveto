@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ProfileObject } from '../../shared/constant';
 
 @Component({
   selector: 'app-profile',
@@ -8,4 +9,9 @@ import { Component } from '@angular/core';
 })
 export class ProfileComponent {
 
+  profileObject: any = ProfileObject;
+
+  reload() {
+
+  }
 }

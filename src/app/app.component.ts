@@ -9,13 +9,16 @@ import { TaskdetailsComponent } from './pages/taskdetails/taskdetails.component'
 import { TasklistComponent } from './pages/tasklist/tasklist.component';
 import { UserlistComponent } from './pages/userlist/userlist.component';
 import { MenuComponent } from './shared/menu/menu.component';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, DashboardComponent, LoginComponent, ProfileComponent, ProjectdetailsComponent, ProjectlistComponent, TaskdetailsComponent, TasklistComponent, UserlistComponent, MenuComponent],
+  imports: [RouterOutlet, DashboardComponent, LoginComponent, ProfileComponent, ProjectdetailsComponent, ProjectlistComponent, TaskdetailsComponent, TasklistComponent, UserlistComponent, MenuComponent, NgIf],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'ugy-projekt-koveto';
+
+  page = "profile";
 }

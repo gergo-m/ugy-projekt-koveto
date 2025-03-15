@@ -1,10 +1,19 @@
 <app-menu></app-menu>
-<app-dashboard></app-dashboard>
-<app-login></app-login>
-<app-profile></app-profile>
-<app-projectdetails></app-projectdetails>
-<app-projectlist></app-projectlist>
-<app-taskdetails></app-taskdetails>
-<app-tasklist></app-tasklist>
-<app-userlist></app-userlist>
+@if (page === "dashboard") {
+    <app-dashboard></app-dashboard>
+} @else if (page === "login") {
+    <app-login></app-login>
+} @else if (page === "profile") {
+    <app-profile></app-profile>
+} @else if (page === "projectdetails") {
+    <app-projectdetails></app-projectdetails>
+} @else if (page === "projectlist") {
+    <app-projectlist></app-projectlist>
+} @else if (page === "taskdetails") {
+    <app-taskdetails></app-taskdetails>
+} @else if (page === "tasklist") {
+    <app-tasklist></app-tasklist>
+} @else if (page === "userlist") {
+    <app-userlist></app-userlist>
+}
 <!-- <router-outlet /> -->

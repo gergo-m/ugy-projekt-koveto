@@ -1,1 +1,65 @@
-<p>profile works!</p>
+<div class="container">
+    <select #chosenProfile (change) = "reload()">
+        <option value="5XPnXqqv8sPd">5XPnXqqv8sPd</option>
+        <option value="8QZmLxRt2bVk">8QZmLxRt2bVk</option>
+        <option value="7MKpYwVf4zTx">7MKpYwVf4zTx</option>
+        <option value="3LJqRxTv9mYn">3LJqRxTv9mYn</option>
+    </select>
+
+    <h2>User Profile</h2>
+
+    <div class="profile-header">
+        <div class="avatar">{{profileObject[chosenProfile.value].avatar}}</div>
+        <div class="user-info">
+            <div class="name">
+                <div class="full-name">{{profileObject[chosenProfile.value].full_name}}</div>
+                <div class="display-name">({{profileObject[chosenProfile.value].display_name}})</div>
+            </div>
+            <div class="email">{{profileObject[chosenProfile.value].email}}</div>
+            <div class="bio">{{profileObject[chosenProfile.value].bio}}</div>
+            <div class="location">{{profileObject[chosenProfile.value].location}}</div>
+        </div>
+    </div>
+
+    <h2>Project and Task Statistics</h2>
+
+    <table class="stats-table">
+        <tr>
+            <th>Metric</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>Total Projects</td>
+            <td>{{profileObject[chosenProfile.value].projects.total}}</td>
+        </tr>
+        <tr>
+            <td>Completed Projects</td>
+            <td>{{profileObject[chosenProfile.value].projects.completed}}</td>
+        </tr>
+        <tr>
+            <td>Pending Projects</td>
+            <td>{{profileObject[chosenProfile.value].projects.pending}}</td>
+        </tr>
+        
+        <tr>
+            <td>Assigned Tasks</td>
+            <td>{{profileObject[chosenProfile.value].tasks.assigned}}</td>
+        </tr>
+        <tr>
+            <td>Completed Tasks</td>
+            <td>{{profileObject[chosenProfile.value].tasks.completed}}</td>
+        </tr>
+        <tr>
+            <td>Pending Tasks</td>
+            <td>{{profileObject[chosenProfile.value].tasks.pending}}</td>
+        </tr>
+        <tr>
+            <td>Overdue Tasks</td>
+            <td>{{profileObject[chosenProfile.value].tasks.overdue}}</td>
+        </tr>
+        <tr>
+            <td>Task Completion Rate</td>
+            <td>{{(profileObject[chosenProfile.value].tasks.completed / profileObject[chosenProfile.value].tasks.assigned * 100).toFixed(2)}}%</td>
+        </tr>
+    </table>
+</div>
