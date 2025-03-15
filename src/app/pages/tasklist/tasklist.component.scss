@@ -1,0 +1,51 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: #999;
+}
+
+.priority {
+    display: inline-block;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: white;
+}
+
+.text-highest {
+    background-color: #c0392b;
+}
+
+.text-high {
+    background-color: #d35400;
+}
+
+.text-medium {
+    background-color: #f39c12;
+}
+
+.text-low {
+    background-color: #27ae60;
+}
+
+.text-lowest {
+    background-color: #2ecc71;
+}
+
+.edit-link {
+    text-decoration: none;
+}
+
+.edit-link:hover {
+    text-decoration: underline;
+}
