@@ -22,7 +22,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class AppComponent {
   title = 'ugy-projekt-koveto';
 
-  page = "profile";
+  page = "dashboard";
+
+  changePage(selectedPage: string) {
+    this.page = selectedPage;
+  }
 
   constructor(private modalService: NgbModal) {
   }

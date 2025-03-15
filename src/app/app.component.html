@@ -1,19 +1,31 @@
-<app-menu></app-menu>
-@if (page === "dashboard") {
-    <app-dashboard></app-dashboard>
-} @else if (page === "login") {
-    <app-login></app-login>
-} @else if (page === "profile") {
-    <app-profile></app-profile>
-} @else if (page === "projectdetails") {
-    <app-projectdetails></app-projectdetails>
-} @else if (page === "projectlist") {
-    <app-projectlist></app-projectlist>
-} @else if (page === "taskdetails") {
-    <app-taskdetails></app-taskdetails>
-} @else if (page === "tasklist") {
-    <app-tasklist></app-tasklist>
-} @else if (page === "userlist") {
-    <app-userlist></app-userlist>
+<app-menu (selectedPage)="changePage($event)"></app-menu>
+@switch (page) {
+    @case ("dashboard") {
+        <app-dashboard></app-dashboard>
+    }
+    @case ("login") {
+        <app-login></app-login>
+    }
+    @case ("profile") {
+        <app-profile></app-profile>
+    }
+    @case ("projectdetails") {
+        <app-projectdetails></app-projectdetails>
+    }
+    @case ("projectlist") {
+        <app-projectlist></app-projectlist>
+    }
+    @case ("taskdetails") {
+        <app-taskdetails></app-taskdetails>
+    }
+    @case ("tasklist") {
+        <app-tasklist></app-tasklist>
+    }
+    @case ("userlist") {
+        <app-userlist></app-userlist>
+    }
+    @default {
+        <h1>Page not found...</h1>
+    }
 }
 <!-- <router-outlet /> -->
