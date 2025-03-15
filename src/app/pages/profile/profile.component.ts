@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProfileObject } from '../../shared/constant';
 
 @Component({
@@ -9,9 +9,14 @@ import { ProfileObject } from '../../shared/constant';
 })
 export class ProfileComponent {
 
-  profileObject: any = ProfileObject;
+  ProfileObject = ProfileObject;
+  selectedIndex: number = 0;
 
-  reload() {
+  ngOnInit(): void {
+    this.selectedIndex = 0;
+  }
 
+  reload(index: number): void {
+    this.selectedIndex = index;
   }
 }

@@ -1,9 +1,8 @@
 <div class="container mt-4">
-    <select class="form-select w-50 my-3" #chosenProfile (change) = "reload()">
-        <option value="5XPnXqqv8sPd">5XPnXqqv8sPd</option>
-        <option value="8QZmLxRt2bVk">8QZmLxRt2bVk</option>
-        <option value="7MKpYwVf4zTx">7MKpYwVf4zTx</option>
-        <option value="3LJqRxTv9mYn">3LJqRxTv9mYn</option>
+    <select class="form-select w-50 my-3" #chosenProfile (change) = "reload(chosenProfile.selectedIndex)">
+        @for (profile of ProfileObject; track $index) {
+            <option value="{{$index}}">{{profile.id}}</option>
+        }
     </select>
 
     <h2 class="mb-4 fw-bold">User Profile</h2>
@@ -11,17 +10,17 @@
     <div class="user-info my-4">
         <div class="main-info row align-items-center">
             <div class="col-auto">
-                <p class="avatar">{{profileObject[chosenProfile.value].avatar}}</p>
+                <p class="avatar">{{ProfileObject[selectedIndex].avatar}}</p>
             </div>
             <div class="col">
-                <h3 class="full-name mb-1">{{profileObject[chosenProfile.value].full_name}}</h3>
-                <p class="display-name text-muted">({{profileObject[chosenProfile.value].display_name}})</p>
+                <h3 class="full-name mb-1">{{ProfileObject[selectedIndex].full_name}}</h3>
+                <p class="display-name text-muted">({{ProfileObject[selectedIndex].display_name}})</p>
             </div>
         </div>
         <div class="other-info row mt-2">
-            <p class="email fw-bold">{{profileObject[chosenProfile.value].email}}</p>
-            <p class="bio">{{profileObject[chosenProfile.value].bio}}</p>
-            <p class="location"><i class="bi bi-geo-alt"></i>{{profileObject[chosenProfile.value].location}}</p>
+            <p class="email fw-bold">{{ProfileObject[selectedIndex].email}}</p>
+            <p class="bio">{{ProfileObject[selectedIndex].bio}}</p>
+            <p class="location"><i class="bi bi-geo-alt"></i>{{ProfileObject[selectedIndex].location}}</p>
         </div>
     </div>
 
@@ -37,36 +36,36 @@
         <tbody>
             <tr>
                 <td>Total Projects</td>
-                <td>{{profileObject[chosenProfile.value].projects.total}}</td>
+                <td>{{ProfileObject[selectedIndex].projects.total}}</td>
             </tr>
             <tr>
                 <td>Completed Projects</td>
-                <td>{{profileObject[chosenProfile.value].projects.completed}}</td>
+                <td>{{ProfileObject[selectedIndex].projects.completed}}</td>
             </tr>
             <tr>
                 <td>Pending Projects</td>
-                <td>{{profileObject[chosenProfile.value].projects.pending}}</td>
+                <td>{{ProfileObject[selectedIndex].projects.pending}}</td>
             </tr>
             
             <tr>
                 <td>Assigned Tasks</td>
-                <td>{{profileObject[chosenProfile.value].tasks.assigned}}</td>
+                <td>{{ProfileObject[selectedIndex].tasks.assigned}}</td>
             </tr>
             <tr>
                 <td>Completed Tasks</td>
-                <td>{{profileObject[chosenProfile.value].tasks.completed}}</td>
+                <td>{{ProfileObject[selectedIndex].tasks.completed}}</td>
             </tr>
             <tr>
                 <td>Pending Tasks</td>
-                <td>{{profileObject[chosenProfile.value].tasks.pending}}</td>
+                <td>{{ProfileObject[selectedIndex].tasks.pending}}</td>
             </tr>
             <tr>
                 <td>Overdue Tasks</td>
-                <td>{{profileObject[chosenProfile.value].tasks.overdue}}</td>
+                <td>{{ProfileObject[selectedIndex].tasks.overdue}}</td>
             </tr>
             <tr>
                 <td>Task Completion Rate</td>
-                <td>{{(profileObject[chosenProfile.value].tasks.completed / profileObject[chosenProfile.value].tasks.assigned * 100).toFixed(2)}}%</td>
+                <td>{{(ProfileObject[selectedIndex].tasks.completed / ProfileObject[selectedIndex].tasks.assigned * 100).toFixed(2)}}%</td>
             </tr>
         </tbody>
     </table>

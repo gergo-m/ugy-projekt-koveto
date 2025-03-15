@@ -1,5 +1,6 @@
-export const ProfileObject = {
-    '5XPnXqqv8sPd': {
+export const ProfileObject = [
+    {
+        'id': "5XPnXqqv8sPd",
         'full_name': "Johnathan Doe",
         'display_name': "John",
         'email': "johndoe97@example.com",
@@ -32,7 +33,8 @@ export const ProfileObject = {
             { timestamp: "2025-03-01T12:00:00Z", action: "Created new project: 'Task Manager'" }
         ]
     },
-    '8QZmLxRt2bVk': {
+    {
+        'id': "8QZmLxRt2bVk",
         'full_name': "Alice Bennett",
         'display_name': "Alice",
         'email': "aliceb@example.com",
@@ -65,7 +67,8 @@ export const ProfileObject = {
             { timestamp: "2025-03-01T15:45:00Z", action: "Completed task: 'Revamp Login UI'" }
         ]
     },
-    '7MKpYwVf4zTx': {
+    {
+        'id': "7MKpYwVf4zTx",
         'full_name': "Robert Chen",
         'display_name': "Rob",
         'email': "robchen@example.com",
@@ -98,7 +101,8 @@ export const ProfileObject = {
             { timestamp: "2025-02-27T18:00:00Z", action: "Fixed bug in API endpoint" }
         ]
     },
-    '3LJqRxTv9mYn': {
+    {
+        'id': "3LJqRxTv9mYn",
         'full_name': "Sophia Martinez",
         'display_name': "Sophia",
         'email': "sophia.m@example.com",
@@ -131,4 +135,4 @@ export const ProfileObject = {
             { timestamp: "2025-02-20T09:00:00Z", action: "Held sprint planning meeting" }
         ]
     }
-}
+];
