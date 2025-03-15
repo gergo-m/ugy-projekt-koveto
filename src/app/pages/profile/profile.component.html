@@ -1,65 +1,73 @@
-<div class="container">
-    <select #chosenProfile (change) = "reload()">
+<div class="container mt-4">
+    <select class="form-select w-50 my-3" #chosenProfile (change) = "reload()">
         <option value="5XPnXqqv8sPd">5XPnXqqv8sPd</option>
         <option value="8QZmLxRt2bVk">8QZmLxRt2bVk</option>
         <option value="7MKpYwVf4zTx">7MKpYwVf4zTx</option>
         <option value="3LJqRxTv9mYn">3LJqRxTv9mYn</option>
     </select>
 
-    <h2>User Profile</h2>
+    <h2 class="mb-4 fw-bold">User Profile</h2>
 
-    <div class="profile-header">
-        <div class="avatar">{{profileObject[chosenProfile.value].avatar}}</div>
-        <div class="user-info">
-            <div class="name">
-                <div class="full-name">{{profileObject[chosenProfile.value].full_name}}</div>
-                <div class="display-name">({{profileObject[chosenProfile.value].display_name}})</div>
+    <div class="user-info my-4">
+        <div class="main-info row align-items-center">
+            <div class="col-auto">
+                <p class="avatar">{{profileObject[chosenProfile.value].avatar}}</p>
             </div>
-            <div class="email">{{profileObject[chosenProfile.value].email}}</div>
-            <div class="bio">{{profileObject[chosenProfile.value].bio}}</div>
-            <div class="location">{{profileObject[chosenProfile.value].location}}</div>
+            <div class="col">
+                <h3 class="full-name mb-1">{{profileObject[chosenProfile.value].full_name}}</h3>
+                <p class="display-name text-muted">({{profileObject[chosenProfile.value].display_name}})</p>
+            </div>
+        </div>
+        <div class="other-info row mt-2">
+            <p class="email fw-bold">{{profileObject[chosenProfile.value].email}}</p>
+            <p class="bio">{{profileObject[chosenProfile.value].bio}}</p>
+            <p class="location"><i class="bi bi-geo-alt"></i>{{profileObject[chosenProfile.value].location}}</p>
         </div>
     </div>
 
-    <h2>Project and Task Statistics</h2>
+    <h2 class="mt-5 fw-bold">Project and Task Statistics</h2>
 
-    <table class="stats-table">
-        <tr>
-            <th>Metric</th>
-            <th>Value</th>
-        </tr>
-        <tr>
-            <td>Total Projects</td>
-            <td>{{profileObject[chosenProfile.value].projects.total}}</td>
-        </tr>
-        <tr>
-            <td>Completed Projects</td>
-            <td>{{profileObject[chosenProfile.value].projects.completed}}</td>
-        </tr>
-        <tr>
-            <td>Pending Projects</td>
-            <td>{{profileObject[chosenProfile.value].projects.pending}}</td>
-        </tr>
-        
-        <tr>
-            <td>Assigned Tasks</td>
-            <td>{{profileObject[chosenProfile.value].tasks.assigned}}</td>
-        </tr>
-        <tr>
-            <td>Completed Tasks</td>
-            <td>{{profileObject[chosenProfile.value].tasks.completed}}</td>
-        </tr>
-        <tr>
-            <td>Pending Tasks</td>
-            <td>{{profileObject[chosenProfile.value].tasks.pending}}</td>
-        </tr>
-        <tr>
-            <td>Overdue Tasks</td>
-            <td>{{profileObject[chosenProfile.value].tasks.overdue}}</td>
-        </tr>
-        <tr>
-            <td>Task Completion Rate</td>
-            <td>{{(profileObject[chosenProfile.value].tasks.completed / profileObject[chosenProfile.value].tasks.assigned * 100).toFixed(2)}}%</td>
-        </tr>
+    <table class="stats-table table table-striped table-hover mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>Metric</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Total Projects</td>
+                <td>{{profileObject[chosenProfile.value].projects.total}}</td>
+            </tr>
+            <tr>
+                <td>Completed Projects</td>
+                <td>{{profileObject[chosenProfile.value].projects.completed}}</td>
+            </tr>
+            <tr>
+                <td>Pending Projects</td>
+                <td>{{profileObject[chosenProfile.value].projects.pending}}</td>
+            </tr>
+            
+            <tr>
+                <td>Assigned Tasks</td>
+                <td>{{profileObject[chosenProfile.value].tasks.assigned}}</td>
+            </tr>
+            <tr>
+                <td>Completed Tasks</td>
+                <td>{{profileObject[chosenProfile.value].tasks.completed}}</td>
+            </tr>
+            <tr>
+                <td>Pending Tasks</td>
+                <td>{{profileObject[chosenProfile.value].tasks.pending}}</td>
+            </tr>
+            <tr>
+                <td>Overdue Tasks</td>
+                <td>{{profileObject[chosenProfile.value].tasks.overdue}}</td>
+            </tr>
+            <tr>
+                <td>Task Completion Rate</td>
+                <td>{{(profileObject[chosenProfile.value].tasks.completed / profileObject[chosenProfile.value].tasks.assigned * 100).toFixed(2)}}%</td>
+            </tr>
+        </tbody>
     </table>
 </div>

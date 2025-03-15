@@ -10,15 +10,6 @@
 
 h2 {
     color: darkslategray;
-    margin: 0 0 20px 0;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.profile-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 30px;
 }
 
 .avatar {
@@ -32,66 +23,4 @@ h2 {
     font-size: 24px;
     color: green;
     margin: 0 15px 0 0;
-}
-
-.user-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.name {
-    display: flex;
-    flex-direction: row;
-    text-align: center;
-    margin: 0 0 5px 0;
-}
-
-.full-name {
-    margin: 0 7px 0 0;
-    font-weight: bold;
-    font-size: 18px;
-}
-
-.display-name {
-    font-size: 18px;
-    color: gray;
-}
-
-.email {
-    color: rgb(199, 105, 74);
-    font-size: 14px;
-}
-
-.bio {
-    margin: 5px 0;
-
-}
-
-.location::before {
-    content: "➤ ";
-    color: rgb(197, 197, 157);
-}
-
-.stats-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 10px 0 0 0;
-}
-
-.stats-table th, .stats-table td {
-    padding: 12px 15px;
-    text-align: left;
-}
-
-.stats-table th {
-    background-color: #f9f9f9;
-    color: #555;
-}
-
-.stats-table tr:nth-child(odd) td {
-    background-color: #fff;
-}
-
-.stats-table tr:nth-child(even) td {
-    background-color: #f9f9f9;
-}
+} 
