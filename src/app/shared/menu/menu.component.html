@@ -1,3 +1,4 @@
+<!--
 <select class="form-select w-25 mb-3" #pageValue (change)="menuSwitch(pageValue.value)">
     <option value="dashboard">Dashboard</option>
     <option value="login">Login</option>
@@ -8,3 +9,14 @@
     <option value="tasklist">Task List</option>
     <option value="userlist">User List</option>
 </select>
+-->
+<nav>
+    <ul>
+        <li><a routerLink="/dashboard">Dashboard</a></li>
+        <li><a routerLink="/login">Login</a></li>
+        <li><a routerLink="/profile">Profile</a></li>
+        <li><a routerLink="/projectlist">Projects</a></li>
+        <li><a routerLink="/tasklist">Tasks</a></li>
+        <li><a routerLink="/userlist">Users</a></li>
+    </ul>
+</nav>
