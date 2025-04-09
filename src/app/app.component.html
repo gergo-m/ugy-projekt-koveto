@@ -1,34 +1,28 @@
 <!--
-<app-menu (selectedPage)="changePage($event)"></app-menu>
-@switch (page) {
-    @case ("dashboard") {
-        <app-dashboard></app-dashboard>
-    }
-    @case ("login") {
-        <app-login></app-login>
-    }
-    @case ("profile") {
-        <app-profile></app-profile>
-    }
-    @case ("projectdetails") {
-        <app-projectdetails></app-projectdetails>
-    }
-    @case ("projectlist") {
-        <app-projectlist></app-projectlist>
-    }
-    @case ("taskdetails") {
-        <app-taskdetails></app-taskdetails>
-    }
-    @case ("tasklist") {
-        <app-tasklist></app-tasklist>
-    }
-    @case ("userlist") {
-        <app-userlist></app-userlist>
-    }
-    @default {
-        <h1>Page not found...</h1>
-    }
-}
--->
 <app-menu></app-menu>
 <router-outlet />
+-->
+<mat-sidenav-container>
+    <mat-sidenav #sidenav>
+        <app-menu [sidenav]="sidenav"></app-menu>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar>
+            <button mat-button (click)="onToggleSidenav(sidenav)" class="menu-toggle-button">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <div>DevTracker</div>
+            <nav>
+                <ul>
+                    <li><a routerLink="/dashboard">Dashboard</a></li>
+                    <li><a routerLink="/login">Login</a></li>
+                    <li><a routerLink="/profile">Profile</a></li>
+                    <li><a routerLink="/projectlist">Projects</a></li>
+                    <li><a routerLink="/tasklist">Tasks</a></li>
+                    <li><a routerLink="/userlist">Users</a></li>
+                </ul>
+            </nav>
+        </mat-toolbar>
+        <router-outlet />
+    </mat-sidenav-content>
+</mat-sidenav-container>
