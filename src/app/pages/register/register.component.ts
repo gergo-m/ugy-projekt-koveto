@@ -31,8 +31,8 @@ export class RegisterComponent {
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     rePassword: new FormControl('', [Validators.required]),
     name: new FormGroup({
-      firstname: new FormControl('', [Validators.required, Validators.minLength(2)]),
-      lastname: new FormControl('', [Validators.required, Validators.minLength(2)])
+      first_name: new FormControl('', [Validators.required, Validators.minLength(2)]),
+      last_name: new FormControl('', [Validators.required, Validators.minLength(2)])
     })
   });
   
@@ -59,14 +59,38 @@ export class RegisterComponent {
     this.showForm = false;
 
     const newUser: User = {
+      id: -1,
       name: {
-        firstname: this.signUpForm.value.name?.firstname || '',
-        lastname: this.signUpForm.value.name?.lastname || ''
+        first_name: this.signUpForm.value.name?.first_name || '',
+        last_name: this.signUpForm.value.name?.last_name || ''
       },
       email: this.signUpForm.value.email || '',
       password: this.signUpForm.value.password || '',
-      tasks: [],
-      completed_tasks: []
+      bio: '',
+      location: '',
+      account: {
+        created_at: new Date(),
+        last_login: new Date(),
+        role: 'user',
+        preferences: {
+          theme: 'dark',
+          language: 'en-US',
+          notifications: false
+        }
+      },
+      statistics: {
+        projects: {
+          total: 0,
+          completed: 0,
+          pending: 0
+        },
+        tasks: {
+          assigned: 0,
+          completed: 0,
+          pending: 0,
+          overdue: 0
+        }
+      }
     };
 
     console.log('New user:', newUser);

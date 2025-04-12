@@ -45,4 +45,12 @@
         </table>
       </mat-card-content>
     </mat-card>
+
+    <mat-table>
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+        <mat-cell *matCellDef="let project">{{ project.name }}</mat-cell>
+      </ng-container>
+      <!-- Add more columns -->
+    </mat-table>
   </div>

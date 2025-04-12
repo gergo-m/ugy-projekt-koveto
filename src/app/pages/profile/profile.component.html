@@ -15,12 +15,9 @@
       <mat-card-content>
         <div class="profile-info">
           <div class="avatar-container">
-            <div class="avatar mat-elevation-z2">
-              {{ProfileObject[selectedIndex].avatar}}
-            </div>
           </div>
           <div class="user-details">
-            <h3 class="user-name">{{ProfileObject[selectedIndex].full_name}}</h3>
+            <h3 class="user-name">{{ProfileObject[selectedIndex].name}}</h3>
             <div class="user-email">
               <mat-icon>email</mat-icon>
               <span>{{ProfileObject[selectedIndex].email}}</span>
@@ -35,7 +32,7 @@
             <mat-card class="stat-card">
               <mat-card-header>
                 <mat-icon mat-card-avatar>assignment</mat-icon>
-                <mat-card-title>{{ProfileObject[selectedIndex].tasks.assigned}}</mat-card-title>
+                <mat-card-title>{{ProfileObject[selectedIndex].statistics.tasks.assigned}}</mat-card-title>
                 <mat-card-subtitle>Total Tasks</mat-card-subtitle>
               </mat-card-header>
             </mat-card>
@@ -43,7 +40,7 @@
             <mat-card class="stat-card">
               <mat-card-header>
                 <mat-icon mat-card-avatar>done_all</mat-icon>
-                <mat-card-title>{{ProfileObject[selectedIndex].tasks.completed}}</mat-card-title>
+                <mat-card-title>{{ProfileObject[selectedIndex].statistics.tasks.completed}}</mat-card-title>
                 <mat-card-subtitle>Completed</mat-card-subtitle>
               </mat-card-header>
             </mat-card>
@@ -51,7 +48,7 @@
             <mat-card class="stat-card">
               <mat-card-header>
                 <mat-icon mat-card-avatar>pending</mat-icon>
-                <mat-card-title>{{ProfileObject[selectedIndex].tasks.pending}}</mat-card-title>
+                <mat-card-title>{{ProfileObject[selectedIndex].statistics.tasks.pending}}</mat-card-title>
                 <mat-card-subtitle>Pending</mat-card-subtitle>
               </mat-card-header>
             </mat-card>
@@ -62,12 +59,12 @@
               <div class="completion-header">
                 <h3>Completion Rate</h3>
                 <div class="completion-value">
-                  {{(ProfileObject[selectedIndex].tasks.completed / ProfileObject[selectedIndex].tasks.assigned * 100).toFixed(2)}}%
+                  {{(ProfileObject[selectedIndex].statistics.tasks.completed / ProfileObject[selectedIndex].statistics.tasks.assigned * 100).toFixed(2)}}%
                 </div>
               </div>
               <mat-progress-bar
                 mode="determinate"
-                [value]="ProfileObject[selectedIndex].tasks.completed / ProfileObject[selectedIndex].tasks.assigned * 100">
+                [value]="ProfileObject[selectedIndex].statistics.tasks.completed / ProfileObject[selectedIndex].statistics.tasks.assigned * 100">
               </mat-progress-bar>
             </mat-card-content>
           </mat-card>

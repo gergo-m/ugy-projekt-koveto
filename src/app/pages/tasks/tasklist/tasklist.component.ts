@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { Task } from '../../../shared/models/Task';
+import { ProfileObject } from '../../../shared/constant';
 
 @Component({
   selector: 'app-tasklist',
@@ -32,35 +33,40 @@ import { Task } from '../../../shared/models/Task';
   standalone: true
 })
 export class TasklistComponent implements OnInit {
+  ProfileObject = ProfileObject;
+
   @Input() title: string = 'Tasks';
   @Output() taskAdded = new EventEmitter<Task>();
   
-  displayedColumns: string[] = ['status', 'name', 'priority', 'dueDate', 'actions'];
+  displayedColumns: string[] = ['status', 'title', 'priority', 'dueDate', 'assignedTo', 'actions'];
   taskForm!: FormGroup;
   
   tasks: Task[] = [
     {
       id: 1,
-      name: 'Complete Angular basics tutorial',
-      completed: false,
-      priority: 'High',
+      title: 'Complete Angular basics tutorial',
+      status: 'not_started',
+      priority: 'high',
       dueDate: new Date('2025-03-25'),
+      assignedTo: ProfileObject[0],
       description: 'Complete the tutorial sections on components and modules'
     },
     {
       id: 2,
-      name: 'Practice component creation',
-      completed: false,
-      priority: 'Medium',
+      title: 'Practice component creation',
+      status: 'in_progress',
+      priority: 'medium',
       dueDate: new Date('2025-03-25'),
+      assignedTo: ProfileObject[1],
       description: 'Create 3 different components and practice data binding'
     },
     {
       id: 3,
-      name: 'Read documentation on directives',
-      completed: false,
-      priority: 'Medium',
+      title: 'Read documentation on directives',
+      status: 'done',
+      priority: 'lowest',
       dueDate: new Date('2025-03-25'),
+      assignedTo: ProfileObject[2],
       description: 'Study structural and attribute directives in Angular'
     }
   ];
@@ -73,9 +79,10 @@ export class TasklistComponent implements OnInit {
 
   initializeForm(): void {
     this.taskForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      priority: ['High', Validators.required],
+      title: ['', [Validators.required, Validators.minLength(3)]],
+      priority: ['medium', Validators.required],
       dueDate: [new Date(), Validators.required],
+      assignedTo: [''],
       description: ['', Validators.maxLength(200)]
     });
   }
@@ -86,17 +93,18 @@ export class TasklistComponent implements OnInit {
       
       const newTask: Task = {
         id: this.tasks.length + 1,
-        name: formValue.name,
-        completed: false,
+        title: formValue.title,
+        status: 'not_started',
         priority: formValue.priority,
         dueDate: formValue.dueDate,
+        assignedTo: formValue.assignedTo,
         description: formValue.description
       };
       
       this.tasks = [...this.tasks, newTask];
       this.taskAdded.emit(newTask);
       this.taskForm.reset({
-        priority: 'High',
+        priority: 'medium',
         dueDate: new Date()
       });
     } else {
@@ -108,7 +116,7 @@ export class TasklistComponent implements OnInit {
   }
 
   toggleTaskCompletion(task: Task): void {
-    task.completed = !task.completed;
+    task.status = 'done';
   }
 
   trackById(index: number, item: Task): number {

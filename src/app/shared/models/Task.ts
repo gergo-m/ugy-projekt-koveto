@@ -6,6 +6,6 @@ export interface Task {
     status: 'not_started' | 'in_progress' |'done';
     priority: 'lowest' | 'low' | 'medium' | 'high' | 'highest';
     dueDate: Date;
-    assignedTo: User;
+    assignedTo?: User;
     description?: string;
   }
