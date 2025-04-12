@@ -8,20 +8,49 @@ import { UserlistComponent } from './pages/userlist/userlist.component';
 import { PageNotFoundComponent } from './shared/pagenotfound/pagenotfound.component';
 
 export const routes: Routes = [
-    { path: 'dashboard', title: 'Dashboard', component: DashboardComponent },
-    { path: 'login', title: 'Login', component: LoginComponent},
-    { path: 'profile', title: 'Profile', component: ProfileComponent},
-    { path: 'projectdetails', title: 'Project details', component: ProjectdetailsComponent},
-    // lazy loading:
+    {
+        path: 'dashboard', title: 'Dashboard',
+        loadComponent: () => import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent)
+    },
+    {
+        path: 'login', title: 'Login',
+        loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent)
+    },
+    {
+        path: 'profile', title: 'Profile',
+        loadComponent: () => import('./pages/profile/profile.component').then(m => m.ProfileComponent)
+    },
+    {
+        path: 'projectdetails', title: 'Project details',
+        loadComponent: () => import('./pages/projectdetails/projectdetails.component').then(m => m.ProjectdetailsComponent)
+    },
     {
         path: 'projectlist', title: 'Projects',
         loadComponent: () => import('./pages/projectlist/projectlist.component').then(m => m.ProjectlistComponent)
     },
-    { path: 'taskdetails', title: 'Task details', component: TaskdetailsComponent},
+    {
+        path: 'register', title: 'Register',
+        loadComponent: () => import('./pages/register/register.component').then(m => m.RegisterComponent)
+    },
+    {
+        path: 'taskdetails', title: 'Task details',
+        loadComponent: () => import('./pages/taskdetails/taskdetails.component').then(m => m.TaskdetailsComponent)
+    },
     {
         path: 'tasklist', title: 'Tasks',
         loadComponent: () => import('./pages/tasklist/tasklist.component').then(m => m.TasklistComponent)
     },
-    { path: 'userlist', title: 'Users', component: UserlistComponent},
-    { path: '**', title: 'Page Not Found', component: PageNotFoundComponent }
+    {
+        path: 'userlist', title: 'Users',
+        loadComponent: () => import('./pages/userlist/userlist.component').then(m => m.UserlistComponent)
+    },
+    {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+    },
+    {
+        path: '**', title: 'Page Not Found',
+        loadComponent: () => import('./shared/pagenotfound/pagenotfound.component').then(m => m.PageNotFoundComponent)
+    }
 ];

@@ -2,4 +2,12 @@
     <h1>Welcome to DevTracker!</h1>
     <p>Track and manage your projects efficiently</p>
     <button mat-flat-button class="projects" (click)="changePageProjects()">View My Projects</button>
+
+    @if (!isLoggedIn) {
+        <button mat-flat-button color="accent" [routerLink]="['/login']" class="projects">Login</button>
+    }
+
+    @if (isLoggedIn) {
+        <button mat-flat-button color="accent" [routerLink]="['/profile']" class="projects">My Profile</button>
+    }
 </div>
