@@ -5,7 +5,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ProjectdetailsComponent } from './pages/projectdetails/projectdetails.component';
 import { TaskdetailsComponent } from './pages/taskdetails/taskdetails.component';
 import { UserlistComponent } from './pages/userlist/userlist.component';
-import { PagenotfoundComponent } from './shared/pagenotfound/pagenotfound.component';
+import { PageNotFoundComponent } from './shared/pagenotfound/pagenotfound.component';
 
 export const routes: Routes = [
     { path: 'dashboard', title: 'Dashboard', component: DashboardComponent },
@@ -23,5 +23,5 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/tasklist/tasklist.component').then(m => m.TasklistComponent)
     },
     { path: 'userlist', title: 'Users', component: UserlistComponent},
-    { path: '**', title: 'Page Not Found', component: PagenotfoundComponent }
+    { path: '**', title: 'Page Not Found', component: PageNotFoundComponent }
 ];

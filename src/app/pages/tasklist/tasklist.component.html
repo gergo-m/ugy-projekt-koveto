@@ -1,50 +1,75 @@
-<div class="container mt-4">
-    <div class="controls row align-items-center">
-        <div class="col auto">
-            <h2>Project Tasks</h2>
+<mat-card class="task-card">
+    <mat-card-header>
+        <mat-card-title>{{ title }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+        <div class="input-group">
+            <mat-form-field appearance="outline" class="task-input">
+                <mat-label>Add new task...</mat-label>
+                <input matInput [(ngModel)]="newTaskName">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="priority-select">
+                <mat-label>Priority</mat-label>
+                <mat-select>
+                    <mat-option value="Highest">Highest</mat-option>
+                    <mat-option value="High">High</mat-option>
+                    <mat-option value="Medium">Medium</mat-option>
+                    <mat-option value="Low">Low</mat-option>
+                    <mat-option value="Lowest">Lowest</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <button mat-flat-button color="primary" class="add-button" (click)="addTask()">Add</button>
         </div>
-        <div class="col">
-            <div class="row g-2">
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="Add new task..." [(ngModel)]="newTaskName">
-                </div>
-                <div class="col-auto">
-                    <select [(ngModel)]="newTaskPriority" class="form-select">
-                        <option value="Highest">Highest</option>
-                        <option value="High">High</option>
-                        <option value="Medium">Medium</option>
-                        <option value="Low">Low</option>
-                        <option value="Lowest">Lowest</option>
-                    </select>
-                </div>
-                <div class="col-auto">
-                    <button (click)="addTask()" class="btn btn-primary">Add</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="table-container">
-        <table class="table table-striped table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th>Status</th>
-                    <th>Task</th>
-                    <th>Priority</th>
-                    <th>Due Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (task of tasks; track trackById($index, task)) {
-                    <tr>
-                        <td><input type="checkbox" class="form-check-input" [checked]="task.completed" (change)="toggleTaskCompletion(task)"></td>
-                        <td [class.completed]="task.completed">{{ task.name }}</td>
-                        <td><span class="priority text-{{ task.priority.toLowerCase() }}">{{ task.priority }}</span></td>
-                        <td>{{ task.dueDate }}</td>
-                        <td><a href="#" class="edit-link">Edit</a></td>
-                    </tr>
-                }
-            </tbody>
+
+        <table mat-table [dataSource]="tasks" class="task-table">
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Status</th>
+                <td mat-cell *matCellDef="let task">
+                    <mat-checkbox
+                        [checked]="task.completed"
+                        (change)="toggleTaskCompletion(task)"
+                        color="primary">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Task</th>
+                <td mat-cell *matCellDef="let task" [class.completed]="task.completed">
+                    {{ task.name }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="priority">
+                <th mat-header-cell *matHeaderCellDef>Priority</th>
+                <td mat-cell *matCellDef="let task">
+                    <span class="priority-chip {{ task.priority.toLowerCase() }}">
+                        {{ task.priority }}
+                    </span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="dueDate">
+                <th mat-header-cell *matHeaderCellDef>Due Date</th>
+                <td mat-cell *matCellDef="let task">
+                    {{ task.dueDate | date:'yyy-MM-dd' }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let task">
+                    <button mat-icon-button color="primary" aria-label="Edit task">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-    </div>
-</div>
+    </mat-card-content>
+</mat-card>

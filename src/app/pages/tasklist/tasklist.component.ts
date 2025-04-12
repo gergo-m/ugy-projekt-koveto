@@ -1,6 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { DateFormatterPipe } from '../../shared/pipes/date.pipe';
 
 export interface Task {
   id: number;
@@ -12,7 +20,18 @@ export interface Task {
 
 @Component({
   selector: 'app-tasklist',
-  imports: [FormsModule, CommonModule],
+  imports: [
+    FormsModule,
+    CommonModule,
+    DateFormatterPipe,
+    MatCardModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatTableModule,
+    MatIconModule
+  ],
   templateUrl: './tasklist.component.html',
   styleUrl: './tasklist.component.scss',
   standalone: true
@@ -20,6 +39,8 @@ export interface Task {
 export class TasklistComponent implements OnInit {
   @Input() title: string = "Project Tasks";
   @Output() taskAdded = new EventEmitter<Task>();
+
+  displayedColumns: string[] = ['status', 'name', 'priority', 'dueDate', 'actions']
 
   newTaskName: string = "";
   newTaskPriority: "Highest" | "High" | "Medium" | "Low" | "Lowest" = "Medium";

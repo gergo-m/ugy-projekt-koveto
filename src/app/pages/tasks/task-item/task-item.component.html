@@ -1,7 +1,22 @@
-<tr>
-    <td><input type="checkbox" [checked]="task.completed" (change)="toggleComplete()"></td>
-    <td [class.completed]="task.completed">{{ task.name }}</td>
-    <td><span class="priority" [ngClass]="task.priority.toLowerCase()">{{ task.priority }}</span></td>
-    <td>{{ task.dueDate }}</td>
-    <td><a href="#" class="edit-link">Edit</a></td>
+<tr mat-row>
+    <td mat-cell>
+        <mat-checkbox
+            [checked]="task.completed"
+            (change)="toggleComplete()"
+            color="primary">
+        </mat-checkbox>
+    </td>
+    <td mat-cell [class.completed]="task.completed">{{ task.name }}</td>
+    <td mat-cell>
+        <mat-chip selected>
+            {{ task.priority }}
+        </mat-chip>
+    </td>
+    <td mat-cell>{{ task.dueDate | date}}</td>
+    <td mat-cell>
+        <button mat-icon-button color="primary" aria-label="Edit task">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <a href="#" class="edit-link">Edit</a>
+    </td>
 </tr>
