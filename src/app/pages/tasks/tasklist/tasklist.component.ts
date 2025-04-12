@@ -10,7 +10,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { Task } from '../../shared/models/Task';
+import { Task } from '../../../shared/models/Task';
 
 @Component({
   selector: 'app-tasklist',

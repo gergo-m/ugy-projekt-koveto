@@ -2,10 +2,10 @@ import { Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { ProjectdetailsComponent } from './pages/projectdetails/projectdetails.component';
-import { TaskdetailsComponent } from './pages/taskdetails/taskdetails.component';
+import { ProjectdetailsComponent } from './pages/projects/projectdetails/projectdetails.component';
+import { TaskdetailsComponent } from './pages/tasks/taskdetails/taskdetails.component';
 import { UserlistComponent } from './pages/userlist/userlist.component';
-import { PageNotFoundComponent } from './shared/pagenotfound/pagenotfound.component';
+import { PageNotFoundComponent } from './shared/page-not-found/pagenotfound.component';
 
 export const routes: Routes = [
     {
@@ -22,11 +22,11 @@ export const routes: Routes = [
     },
     {
         path: 'projectdetails', title: 'Project details',
-        loadComponent: () => import('./pages/projectdetails/projectdetails.component').then(m => m.ProjectdetailsComponent)
+        loadComponent: () => import('./pages/projects/projectdetails/projectdetails.component').then(m => m.ProjectdetailsComponent)
     },
     {
         path: 'projectlist', title: 'Projects',
-        loadComponent: () => import('./pages/projectlist/projectlist.component').then(m => m.ProjectlistComponent)
+        loadComponent: () => import('./pages/projects/projectlist/projectlist.component').then(m => m.ProjectlistComponent)
     },
     {
         path: 'register', title: 'Register',
@@ -34,11 +34,11 @@ export const routes: Routes = [
     },
     {
         path: 'taskdetails', title: 'Task details',
-        loadComponent: () => import('./pages/taskdetails/taskdetails.component').then(m => m.TaskdetailsComponent)
+        loadComponent: () => import('./pages/tasks/taskdetails/taskdetails.component').then(m => m.TaskdetailsComponent)
     },
     {
         path: 'tasklist', title: 'Tasks',
-        loadComponent: () => import('./pages/tasklist/tasklist.component').then(m => m.TasklistComponent)
+        loadComponent: () => import('./pages/tasks/tasklist/tasklist.component').then(m => m.TasklistComponent)
     },
     {
         path: 'userlist', title: 'Users',
@@ -51,6 +51,6 @@ export const routes: Routes = [
     },
     {
         path: '**', title: 'Page Not Found',
-        loadComponent: () => import('./shared/pagenotfound/pagenotfound.component').then(m => m.PageNotFoundComponent)
+        loadComponent: () => import('./shared/page-not-found/pagenotfound.component').then(m => m.PageNotFoundComponent)
     }
 ];
