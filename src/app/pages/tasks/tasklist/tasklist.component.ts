@@ -1,141 +1,90 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { DatePipe } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
+import { Component } from '@angular/core';
+import { Project } from '../../../shared/models/Project';
+import { ProjectObject } from '../../../shared/constant';
+import { TaskObject } from '../../../shared/constant';
+import { Task, TaskStatus, TaskPriority } from '../../../shared/models/Task';
+import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatOptionModule } from '@angular/material/core';
+import { DateFormatterPipe } from '../../../shared/pipes/date.pipe';
 import { MatTableModule } from '@angular/material/table';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { Task } from '../../../shared/models/Task';
-import { ProfileObject } from '../../../shared/constant';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-tasklist',
   imports: [
-    ReactiveFormsModule,
-    DatePipe,
-    MatCardModule,
-    MatInputModule,
+    MatFormFieldModule,
+    MatLabel,
     MatSelectModule,
-    MatButtonModule,
-    MatCheckboxModule,
+    MatOptionModule,
     MatTableModule,
-    MatIconModule,
-    MatDatepickerModule,
-    MatNativeDateModule
+    DateFormatterPipe,
+    NgClass
   ],
   templateUrl: './tasklist.component.html',
-  styleUrl: './tasklist.component.scss',
-  standalone: true
+  styleUrls: ['./tasklist.component.scss']
 })
-export class TasklistComponent implements OnInit {
-  ProfileObject = ProfileObject;
-
-  @Input() title: string = 'Tasks';
-  @Output() taskAdded = new EventEmitter<Task>();
+export class TasklistComponent {
+  projects = ProjectObject;
+  selectedProjectId: number | null = null;
+  tasks: Task[] = [];
   
-  displayedColumns: string[] = ['status', 'title', 'priority', 'dueDate', 'assignedTo', 'actions'];
-  taskForm!: FormGroup;
+  statusOptions = Object.values(TaskStatus);
+  priorityOptions = Object.values(TaskPriority);
   
-  tasks: Task[] = [
-    {
-      id: 1,
-      title: 'Complete Angular basics tutorial',
-      status: 'not_started',
-      priority: 'high',
-      dueDate: new Date('2025-03-25'),
-      assignedTo: ProfileObject[0],
-      description: 'Complete the tutorial sections on components and modules'
-    },
-    {
-      id: 2,
-      title: 'Practice component creation',
-      status: 'in_progress',
-      priority: 'medium',
-      dueDate: new Date('2025-03-25'),
-      assignedTo: ProfileObject[1],
-      description: 'Create 3 different components and practice data binding'
-    },
-    {
-      id: 3,
-      title: 'Read documentation on directives',
-      status: 'done',
-      priority: 'lowest',
-      dueDate: new Date('2025-03-25'),
-      assignedTo: ProfileObject[2],
-      description: 'Study structural and attribute directives in Angular'
-    }
-  ];
+  statusMap: Record<TaskStatus, string> = {
+    [TaskStatus.NOT_STARTED]: 'Not Started',
+    [TaskStatus.IN_PROGRESS]: 'In Progress',
+    [TaskStatus.DONE]: 'Done'
+  };
 
-  constructor(private fb: FormBuilder) {}
+  priorityMap: Record<TaskPriority, string> = {
+    [TaskPriority.LOWEST]: 'Lowest',
+    [TaskPriority.LOW]: 'Low',
+    [TaskPriority.MEDIUM]: 'Medium',
+    [TaskPriority.HIGH]: 'High',
+    [TaskPriority.HIGHEST]: 'Highest'
+  };
 
-  ngOnInit(): void {
-    this.initializeForm();
-  }
-
-  initializeForm(): void {
-    this.taskForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3)]],
-      priority: ['medium', Validators.required],
-      dueDate: [new Date(), Validators.required],
-      assignedTo: [''],
-      description: ['', Validators.maxLength(200)]
-    });
-  }
-
-  addTask(): void {
-    if (this.taskForm.valid) {
-      const formValue = this.taskForm.value;
-      
-      const newTask: Task = {
-        id: this.tasks.length + 1,
-        title: formValue.title,
-        status: 'not_started',
-        priority: formValue.priority,
-        dueDate: formValue.dueDate,
-        assignedTo: formValue.assignedTo,
-        description: formValue.description
-      };
-      
-      this.tasks = [...this.tasks, newTask];
-      this.taskAdded.emit(newTask);
-      this.taskForm.reset({
-        priority: 'medium',
-        dueDate: new Date()
-      });
-    } else {
-      Object.keys(this.taskForm.controls).forEach(key => {
-        const control = this.taskForm.get(key);
-        control?.markAsTouched();
-      });
+  onProjectSelect(): void {
+    if (this.selectedProjectId !== null) {
+      this.tasks = TaskObject.filter(task => task.projectId === this.selectedProjectId);
     }
   }
 
-  toggleTaskCompletion(task: Task): void {
-    task.status = 'done';
+  updateTask(task: Task): void {
+    // Here you would typically call a service to update the task
+    console.log('Updated task:', task);
   }
 
-  trackById(index: number, item: Task): number {
-    return item.id;
+  getStatusClass(status: TaskStatus): string {
+    switch (status) {
+      case TaskStatus.NOT_STARTED:
+        return 'status-not-started';
+      case TaskStatus.IN_PROGRESS:
+        return 'status-in-progress';
+      case TaskStatus.DONE:
+        return 'status-done';
+      default:
+        return '';
+    }
   }
   
-  getFormControlError(controlName: string): string {
-    const control = this.taskForm.get(controlName);
-    if (control?.invalid) {
-      if (control.errors?.['required']) {
-        return 'This field is required';
-      }
-      if (control.errors?.['minlength']) {
-        return `Minimum length is ${control.errors['minlength'].requiredLength} characters`;
-      }
-      if (control.errors?.['maxlength']) {
-        return `Maximum length is ${control.errors['maxlength'].requiredLength} characters`;
-      }
+  getPriorityClass(priority: TaskPriority): string {
+    switch (priority) {
+      case TaskPriority.LOWEST:
+        return 'priority-lowest';
+      case TaskPriority.LOW:
+        return 'priority-low';
+      case TaskPriority.MEDIUM:
+        return 'priority-medium';
+      case TaskPriority.HIGH:
+        return 'priority-high';
+      case TaskPriority.HIGHEST:
+        return 'priority-highest';
+      default:
+        return '';
     }
-    return '';
   }
+  
 }

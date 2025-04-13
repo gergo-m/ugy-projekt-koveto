@@ -24,7 +24,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent implements OnInit {
-  ProfileObject: User[] = ProfileObject;  
+  ProfileObject: User[] = ProfileObject;
   selectedIndex: number = 0;
 
   getFullName(): string {

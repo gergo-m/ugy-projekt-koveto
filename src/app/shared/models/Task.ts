@@ -1,10 +1,25 @@
 import { User } from "./User";
 
+export enum TaskStatus {
+  NOT_STARTED = 'not_started',
+  IN_PROGRESS = 'in_progress',
+  DONE = 'done'
+}
+
+export enum TaskPriority {
+  LOWEST = 'lowest',
+  LOW = 'low',
+  MEDIUM = 'medium',
+  HIGH = 'high',
+  HIGHEST = 'highest'
+}
+
 export interface Task {
     id: number;
+    projectId: number;
     title: string;
-    status: 'not_started' | 'in_progress' |'done';
-    priority: 'lowest' | 'low' | 'medium' | 'high' | 'highest';
+    status: TaskStatus;
+    priority: TaskPriority;
     dueDate: Date;
     assignedTo?: User;
     description?: string;

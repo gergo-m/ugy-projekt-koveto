@@ -1,5 +1,6 @@
 import { User } from './models/User';
 import { Project } from './models/Project';
+import { Task, TaskPriority, TaskStatus } from './models/Task';
 
 export const ProfileObject = [
     {
@@ -166,3 +167,37 @@ export const ProjectObject = [
         participants: [ProfileObject[0], ProfileObject[2], ProfileObject[3]]
     }
 ];
+
+export const TaskObject: Task[] = [
+    {
+      id: 0,
+      projectId: 0,
+      title: 'Design homepage layout',
+      description: 'Create new UI design for homepage',
+      status: TaskStatus.IN_PROGRESS,
+      priority: TaskPriority.HIGH,
+      dueDate: new Date(2025, 3, 1),
+      assignedTo: ProfileObject[0]
+    },
+    {
+      id: 1,
+      projectId: 0,
+      title: 'Implement user authentication',
+      description: 'Develop login/register functionality',
+      status: TaskStatus.NOT_STARTED,
+      priority: TaskPriority.MEDIUM,
+      dueDate: new Date(2025, 3, 10),
+      assignedTo: ProfileObject[1]
+    },
+    {
+      id: 2,
+      projectId: 1,
+      title: 'API integration',
+      description: 'Connect mobile app to backend API',
+      status: TaskStatus.DONE,
+      priority: TaskPriority.HIGHEST,
+      dueDate: new Date(2025, 4, 1),
+      assignedTo: ProfileObject[0]
+    }
+  ];
+  
