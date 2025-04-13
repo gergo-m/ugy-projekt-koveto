@@ -7,6 +7,4 @@ export interface Comment {
     text: string;
     author: User;
     createdAt: Date;
-    project: Project;
-    task?: Task;
 }
