@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-menu',
+  standalone: true,
   imports: [
     CommonModule,
     RouterLink,
@@ -23,15 +24,27 @@ export class MenuComponent {
   @Input() isLoggedIn: boolean = false;
   @Output() logoutEvent = new EventEmitter<void>();
 
-  closeMenu() {
+  ngOnInit(): void {
+    this.checkLoginStatus();
+  }
+
+  checkLoginStatus(): void {
+    this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  }
+
+  closeMenu(): void {
     if (this.sidenav) {
       this.sidenav.close();
     }
   }
 
-  logout() {
+  logout(): void {
+    this.logoutEvent.emit();
+
     localStorage.setItem("isLoggedIn", "false");
+    this.isLoggedIn = false;
     window.location.href = "/dashboard";
+
     this.closeMenu();
   }
 

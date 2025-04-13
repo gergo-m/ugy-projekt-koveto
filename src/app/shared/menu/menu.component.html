@@ -1,36 +1,34 @@
 <mat-nav-list>
     <a mat-list-item routerLink="/dashboard" routerLinkActive="active-list-item" (click)="closeMenu()">
-        <mat-icon matListItemIcon>home</mat-icon>
+        <mat-icon matListItemIcon>dashboard</mat-icon>
         <span matListItemTitle>Dashboard</span>
     </a>
     <a mat-list-item routerLink="/projectlist" routerLinkActive="active-list-item" (click)="closeMenu()">
-        <mat-icon matListItemIcon>token</mat-icon>
-        <span matListItemTitle>Projects</span>
+        <mat-icon matListItemIcon>folder</mat-icon>
+        <span matListItemTitle>My Projects</span>
     </a>
     <a mat-list-item routerLink="/tasklist" routerLinkActive="active-list-item" (click)="closeMenu()">
-        <mat-icon matListItemIcon>tactic</mat-icon>
-        <span matListItemTitle>Tasks</span>
+        <mat-icon matListItemIcon>check_circle</mat-icon>
+        <span matListItemTitle>My Tasks</span>
     </a>
     <a mat-list-item routerLink="/userlist" routerLinkActive="active-list-item" (click)="closeMenu()">
-        <mat-icon matListItemIcon>groups</mat-icon>
-        <span matListItemTitle>Users</span>
+        <mat-icon matListItemIcon>group</mat-icon>
+        <span matListItemTitle>Team Members</span>
     </a>
     @if (isLoggedIn) {
         <a mat-list-item routerLink="/profile" routerLinkActive="active-list-item" (click)="closeMenu()">
-            <mat-icon matListItemIcon>person</mat-icon>
+            <mat-icon matListItemIcon>account_circle</mat-icon>
             <span matListItemTitle>Profile</span>
+        </a>
+        <a mat-list-item (click)="logout()">
+            <mat-icon matListItemIcon>logout</mat-icon>
+            <span matListItemTitle>Logout</span>
         </a>
     }
     @if (!isLoggedIn) {
         <a mat-list-item routerLink="/login" routerLinkActive="active-list-item" (click)="closeMenu()">
             <mat-icon matListItemIcon>login</mat-icon>
             <span matListItemTitle>Login</span>
-        </a>
-    }
-    @if (isLoggedIn) {
-        <a mat-list-item (click)="logout()">
-            <mat-icon matListItemIcon>logout</mat-icon>
-            <span matListItemTitle>Logout</span>
         </a>
     }
 </mat-nav-list>

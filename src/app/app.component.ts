@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MenuComponent } from './shared/menu/menu.component';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
@@ -25,21 +25,19 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent {
   title = 'ugy-projekt-koveto';
-  isLoggedIn = false;
+  
+  @Output() logoutEvent = new EventEmitter<void>();
+
+  get isLoggedIn(): boolean {
+    return localStorage.getItem('isLoggedIn') === 'true';
+  }
 
   constructor() {}
 
-  ngOnInit(): void {
-    this.checkLoginStatus();
-  }
-
-  checkLoginStatus(): void {
-    this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-  }
-
   logout(): void {
+    this.logoutEvent.emit();
+
     localStorage.setItem('isLoggedIn', 'false');
-    this.isLoggedIn = false;
     window.location.href = '/dashboard';
   }
 
