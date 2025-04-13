@@ -1,51 +1,155 @@
-<div class="signup-container">
-    <h1>Create Account</h1>
+<div class="register-container">
+    <h1 class="title">Sign up to get started!</h1>
     
     @if (isLoading) {
       <div class="loading-container">
-        <h2>Registration in progress</h2>
-        <mat-spinner diameter="50"></mat-spinner>
-        <p>Please wait...</p>
+        <h2>Processing your registration</h2>
+        <mat-spinner diameter="60"></mat-spinner>
+        <p>Hold tight, we're almost there...</p>
       </div>
     }
   
     @if (showForm) {
-      <form [formGroup]="signUpForm" (ngSubmit)="register()" class="signup-form">
+      <form [formGroup]="registerForm" (ngSubmit)="register()" class="register-form">
         <mat-form-field appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput type="email" formControlName="email">
-            <mat-icon matSuffix>email</mat-icon>
+          <mat-label>Email address</mat-label>
+          <input matInput type="email" formControlName="email">
+          <mat-icon matSuffix>alternate_email</mat-icon>
+          @if (hasErrors('email')) {
+            <div class="error-message">
+              @if (getErrors('email')?.['email']) {
+                <small>Please enter a valid email address.</small>
+              }
+            </div>
+          }
         </mat-form-field>
+        
 
         <div class="name-row" formGroupName="name">
           <mat-form-field appearance="outline">
             <mat-label>First Name</mat-label>
             <input matInput formControlName="first_name">
-            <mat-icon matSuffix>person</mat-icon>
+            <mat-icon matSuffix>face</mat-icon>
+            @if (hasErrors('name.first_name')) {
+              <div class="error-message">
+                @if (getErrors('name.first_name')?.['minlength']) {
+                  <small>At least 2 characters required.</small>
+                }
+              </div>
+            }
           </mat-form-field>
   
           <mat-form-field appearance="outline">
             <mat-label>Last Name</mat-label>
             <input matInput formControlName="last_name">
-            <mat-icon matSuffix>person</mat-icon>
+            <mat-icon matSuffix>person_outline</mat-icon>
+            @if (hasErrors('name.last_name')) {
+              <div class="error-message">
+                @if (getErrors('name.last_name')?.['minlength']) {
+                  <small>At least 2 characters required.</small>
+                }
+              </div>
+            }
           </mat-form-field>
         </div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Bio</mat-label>
+          <input matInput type="text" formControlName="bio">
+          <mat-icon matSuffix>assignment_ind</mat-icon>
+          @if (hasErrors('bio')) {
+            <div class="error-message">
+              @if (getErrors('bio')?.['minlength']) {
+                <small>At least 20 characters required.</small>
+              }
+              @if (getErrors('bio')?.['maxlength']) {
+                <small>Maximum 2000 characters allowed.</small>
+              }
+            </div>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Location</mat-label>
+          <input matInput type="text" formControlName="location">
+          <mat-icon matSuffix>map</mat-icon>
+          @if (hasErrors('location')) {
+            <div class="error-message">
+              @if (getErrors('location')?.['minlength']) {
+                <small>At least 2 characters required.</small>
+              }
+              @if (getErrors('location')?.['maxlength']) {
+                <small>Maximum 100 characters allowed.</small>
+              }
+            </div>
+          }
+        </mat-form-field>
   
         <mat-form-field appearance="outline">
           <mat-label>Password</mat-label>
           <input matInput type="password" formControlName="password">
           <mat-icon matSuffix>lock</mat-icon>
+          @if (hasErrors('password')) {
+            <div class="error-message">
+              @if (getErrors('password')?.['minlength']) {
+                <small>At least 8 characters required.</small>
+              }
+            </div>
+          }
         </mat-form-field>
   
         <mat-form-field appearance="outline">
           <mat-label>Confirm Password</mat-label>
           <input matInput type="password" formControlName="rePassword">
           <mat-icon matSuffix>lock</mat-icon>
+          @if (hasErrors('rePassword') || !checkPasswordMatch()) {
+            <div class="error-message">
+              @if (getErrors('rePassword')?.['minlength']) {
+                <small>At least 8 characters required.</small>
+              }
+              @if (!checkPasswordMatch()) {
+                <small>Passwords do not match.</small>
+              }
+            </div>
+          }
         </mat-form-field>
+
+        <div formGroupName="preferences">
+          <div class="preferences-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Choose your theme</mat-label>
+              <mat-select formControlName="theme">
+                <mat-option value="light">Light</mat-option>
+                <mat-option value="dark">Dark</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Preferred language</mat-label>
+              <mat-select formControlName="language">
+                <mat-option value="en-US">English (US)</mat-option>
+                <mat-option value="hu-HU">Hungarian</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="notification-toggle">
+            <label class="toggle-label">
+              Notifications:
+              <mat-checkbox formControlName="notifications"></mat-checkbox>
+            </label>
+          </div>
+        </div>
+
+        @if (registerError) {
+          <div class="error-message general-error">
+            <p class="error-text">{{ registerError }}</p>
+          </div>
+        }
   
         <div class="buttons-row">
-          <button mat-flat-button color="primary" type="submit">Register</button>
-          <button mat-flat-button [routerLink]="['/login']">Already have an account?</button>
+          <button mat-flat-button color="accent" type="submit" [disabled]="registerForm.invalid">Register</button>
+          <button mat-flat-button color="warn" [routerLink]="['/login']">Already registered? Log in</button>
         </div>
       </form>
     }

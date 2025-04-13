@@ -7,7 +7,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 import { User } from '../../shared/models/User';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-register',
@@ -20,38 +23,49 @@ import { User } from '../../shared/models/User';
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatCheckboxModule,
     RouterLink
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
-  signUpForm = new FormGroup({
+  registerForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    rePassword: new FormControl('', [Validators.required]),
     name: new FormGroup({
       first_name: new FormControl('', [Validators.required, Validators.minLength(2)]),
       last_name: new FormControl('', [Validators.required, Validators.minLength(2)])
+    }),
+    bio: new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(2000)]),
+    location: new FormControl('Szeged, Hungary', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
+    password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+    rePassword: new FormControl('', [Validators.required]),
+    preferences: new FormGroup({
+      theme: new FormControl('dark', [Validators.required]),
+      language: new FormControl('en-US', [Validators.required]),
+      notifications: new FormControl(false)
     })
   });
   
-  isLoading = false;
-  showForm = true;
-  signupError = '';
+  isLoading: boolean = false;
+  showForm: boolean = true;
+  registerError: string = '';
 
   constructor(private router: Router) {}
 
   register(): void {
-    if (this.signUpForm.invalid) {
-      this.signupError = 'Please correct the form errors before submitting.';
+    if (this.registerForm.invalid) {
+      this.registerError = 'Please correct the form errors before submitting.';
       return;
     }
 
-    const password = this.signUpForm.get('password');
-    const rePassword = this.signUpForm.get('rePassword');
+    const password = this.registerForm.get('password')?.value;
+    const rePassword = this.registerForm.get('rePassword')?.value;
 
-    if (password?.value !== rePassword?.value) {
+    if (password !== rePassword) {
+      this.registerError = "Passwords do not match.";
       return;
     }
 
@@ -61,21 +75,21 @@ export class RegisterComponent {
     const newUser: User = {
       id: -1,
       name: {
-        first_name: this.signUpForm.value.name?.first_name || '',
-        last_name: this.signUpForm.value.name?.last_name || ''
+        first_name: this.registerForm.value.name?.first_name || '',
+        last_name: this.registerForm.value.name?.last_name || ''
       },
-      email: this.signUpForm.value.email || '',
-      password: this.signUpForm.value.password || '',
-      bio: '',
-      location: '',
+      email: this.registerForm.value.email || '',
+      password: this.registerForm.value.password || '',
+      bio: this.registerForm.value.bio || '',
+      location: this.registerForm.value.location || '',
       account: {
         created_at: new Date(),
         last_login: new Date(),
         role: 'user',
         preferences: {
-          theme: 'dark',
-          language: 'en-US',
-          notifications: false
+          theme: this.registerForm.value.preferences?.theme as "light" | "dark",
+          language: this.registerForm.value.preferences?.language as "en-US" | "hu-HU",
+          notifications: !!this.registerForm.value.preferences?.notifications
         }
       },
       statistics: {
@@ -94,10 +108,24 @@ export class RegisterComponent {
     };
 
     console.log('New user:', newUser);
-    console.log('Form value:', this.signUpForm.value);
+    console.log('Form value:', this.registerForm.value);
 
     setTimeout(() => {
       this.router.navigateByUrl('/dashboard');
     }, 2000);
+  }
+
+  hasErrors(formControl: string) {
+    return this.registerForm.get(formControl)?.invalid && this.registerForm.get(formControl)?.touched && !this.registerForm.get(formControl)?.errors?.["required"];
+  }
+
+  getErrors(formControl: string) {
+    return this.registerForm.get(formControl)?.errors;
+  }
+
+  checkPasswordMatch() {
+    const password = this.registerForm.get('password')?.value;
+    const rePassword = this.registerForm.get('rePassword')?.value;
+    return password === rePassword;
   }
 }
