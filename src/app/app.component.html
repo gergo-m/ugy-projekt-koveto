@@ -14,7 +14,9 @@
                     <li><a routerLink="/dashboard"><mat-icon>dashboard</mat-icon> Dashboard</a></li>
                     <li><a routerLink="/projectlist"><mat-icon>folder</mat-icon> Projects</a></li>
                     <li><a routerLink="/tasklist"><mat-icon>check_circle</mat-icon> Tasks</a></li>
+                    <!--
                     <li><a routerLink="/userlist"><mat-icon>group</mat-icon> Team</a></li>
+                    -->
                     @if (isLoggedIn) {
                         <li><a routerLink="/profile"><mat-icon>account_circle</mat-icon> Profile</a></li>
                         <li><a href="#" (click)="$event.preventDefault(); logout();"><mat-icon>logout</mat-icon> Logout</a></li>

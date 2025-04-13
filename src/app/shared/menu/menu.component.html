@@ -11,10 +11,12 @@
         <mat-icon matListItemIcon>check_circle</mat-icon>
         <span matListItemTitle>My Tasks</span>
     </a>
+    <!--
     <a mat-list-item routerLink="/userlist" routerLinkActive="active-list-item" (click)="closeMenu()">
         <mat-icon matListItemIcon>group</mat-icon>
         <span matListItemTitle>Team Members</span>
     </a>
+    -->
     @if (isLoggedIn) {
         <a mat-list-item routerLink="/profile" routerLinkActive="active-list-item" (click)="closeMenu()">
             <mat-icon matListItemIcon>account_circle</mat-icon>

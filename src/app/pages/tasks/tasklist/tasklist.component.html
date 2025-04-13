@@ -25,7 +25,7 @@
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef>Status</th>
           <td mat-cell *matCellDef="let task">
-            <mat-select [(value)]="task.status" (selectionChange)="updateTask(task)" [ngClass]="getStatusClass(task.status)">
+            <mat-select [(value)]="task.status" (selectionChange)="updateTask(task)" (click)="$event.stopPropagation()" [ngClass]="getStatusClass(task.status)">
               @for (status of statusOptions; track status) {
                 <mat-option [value]="status">
                   {{ statusMap[status] }}
@@ -38,7 +38,7 @@
         <ng-container matColumnDef="priority">
           <th mat-header-cell *matHeaderCellDef>Priority</th>
           <td mat-cell *matCellDef="let task">
-            <mat-select [(value)]="task.priority" (selectionChange)="updateTask(task)" [ngClass]="getPriorityClass(task.priority)">
+            <mat-select [(value)]="task.priority" (selectionChange)="updateTask(task)" (click)="$event.stopPropagation()" [ngClass]="getPriorityClass(task.priority)">
               @for (priority of priorityOptions; track priority) {
                 <mat-option [value]="priority">
                   {{ priorityMap[priority] }}
