@@ -94,6 +94,12 @@ $blue-accent-color: #0984e3;
       margin-top: 3rem;
       padding-top: .5rem;
       border-top: solid #404040 .5px; 
-      color:#757575
+      color:#757575;
   }
-}  
+}
+
+@media (max-width: 670px) {
+  .action-buttons {
+    flex-direction: column;
+  }
+}

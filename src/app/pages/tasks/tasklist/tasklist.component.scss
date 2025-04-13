@@ -52,6 +52,11 @@ $border-color: #404040;
       color: #cfcfcf;
     }
 
+    tr:hover {
+      cursor: pointer;
+      background: #373744;
+    }
+
     mat-select {
       width: auto;
       font-size: 1rem;
@@ -72,7 +77,7 @@ $border-color: #404040;
       color: #4caf50;
     }
 
-    /* Priority Colors */
+    /* Priority colors */
     .priority-lowest {
       color: #91ff7b;
     }

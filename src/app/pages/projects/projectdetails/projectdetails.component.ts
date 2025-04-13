@@ -6,7 +6,6 @@ import { DateFormatterPipe } from '../../../shared/pipes/date.pipe';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-projectdetails',
@@ -23,15 +22,11 @@ import { Location } from '@angular/common';
 export class ProjectDetailsComponent implements OnInit {
   project!: Project;
   
-  constructor(private route: ActivatedRoute, private location: Location) {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
     const projectId = Number(this.route.snapshot.paramMap.get('id'));
     this.project = ProjectObject.find(p => p.id === projectId)!;
-  }
-
-  back(): void {
-    this.location.back(); // Navigate to the previous page
   }
 
   getProgress(): number {

@@ -1,0 +1,132 @@
+$gray-text-color: #a0a0a0;
+$white-text-color: #e0e0e0;
+$green-color: #00b894;
+$blue-accent-color: #0984e3;
+
+.task-details-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+  
+.task-card {
+    background: #2d2d3d;
+    color: $white-text-color;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 2rem;
+  
+    mat-card-title {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+  
+    mat-card-subtitle {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: 1rem;
+    
+        .status-badge {
+            background: $blue-accent-color;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+    
+        .priority-badge {
+            background: $green-color;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+
+        /* Status colors */
+        .status-not-started {
+            background-color: #757575;
+        }
+
+        .status-in-progress {
+            background-color: #ff9800;
+        }
+
+        .status-done {
+            background-color: #4caf50;
+        }
+
+        /* Priority colors */
+        .priority-lowest {
+            background-color: #91ff7b;
+        }
+
+        .priority-low {
+            background-color: #03a9f4;
+        }
+
+        .priority-medium {
+            background-color: #ffc107;
+        }
+
+        .priority-high {
+            background-color: #ff5722;
+        }
+
+        .priority-highest {
+            background-color: #f44336;
+        }
+    }
+  
+    .task-meta {
+      display: grid;
+      gap: 1rem;
+      margin: 2rem 0;
+  
+      .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+  
+        mat-icon {
+          color: $blue-accent-color;
+        }
+      }
+    }
+  
+    .task-description {
+      color: $gray-text-color;
+      line-height: 1.6;
+      margin: 1.5rem 0;
+    }
+  
+    .comments-section {
+      margin-top: 2rem;
+  
+      .comment {
+        background: #37374a;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+  
+        .comment-header {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 0.5rem;
+  
+          .author-name {
+            font-weight: 500;
+            color: $green-color;
+          }
+  
+          .comment-time {
+            color: $gray-text-color;
+            font-size: 0.9rem;
+            margin-left: 10px;
+          }
+        }
+  
+        .comment-text {
+          color: $white-text-color;
+          margin: 0;
+        }
+      }
+    }
+  }
+  

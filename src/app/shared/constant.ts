@@ -177,7 +177,21 @@ export const TaskObject: Task[] = [
       status: TaskStatus.IN_PROGRESS,
       priority: TaskPriority.HIGH,
       dueDate: new Date(2025, 3, 1),
-      assignedTo: ProfileObject[0]
+      assignedTo: ProfileObject[0],
+      comments: [
+        {
+          id: 1,
+          text: 'Need to align with brand guidelines',
+          author: ProfileObject[1],
+          createdAt: new Date(2025, 2, 15)
+        },
+        {
+          id: 2,
+          text: 'Approved by product team',
+          author: ProfileObject[0],
+          createdAt: new Date(2025, 2, 16)
+        }
+      ]
     },
     {
       id: 1,
@@ -187,7 +201,27 @@ export const TaskObject: Task[] = [
       status: TaskStatus.NOT_STARTED,
       priority: TaskPriority.MEDIUM,
       dueDate: new Date(2025, 3, 10),
-      assignedTo: ProfileObject[1]
+      assignedTo: ProfileObject[1],
+      comments: [
+        {
+            id: 101,
+            text: 'Need to decide between JWT and session-based authentication. Let\'s discuss in next standup.',
+            author: ProfileObject[0],
+            createdAt: new Date(2025, 2, 5)
+        },
+        {
+            id: 102,
+            text: 'Security review completed - recommend implementing OAuth2 for third-party integrations.',
+            author: ProfileObject[3],
+            createdAt: new Date(2025, 2, 8)
+        },
+        {
+            id: 103,
+            text: 'Basic login flow implemented. Needs password strength validation and rate limiting.',
+            author: ProfileObject[1],
+            createdAt: new Date(2025, 2, 12)
+        }
+      ]
     },
     {
       id: 2,
@@ -197,7 +231,33 @@ export const TaskObject: Task[] = [
       status: TaskStatus.DONE,
       priority: TaskPriority.HIGHEST,
       dueDate: new Date(2025, 4, 1),
-      assignedTo: ProfileObject[0]
+      assignedTo: ProfileObject[0],
+      comments: [
+        {
+            id: 201,
+            text: 'API endpoints finalized and documented in Swagger. Team review requested.',
+            author: ProfileObject[0],
+            createdAt: new Date(2025, 3, 10)
+        },
+        {
+            id: 202,
+            text: 'Implemented error handling for 400/500 status codes. Needs testing with edge cases.',
+            author: ProfileObject[2],
+            createdAt: new Date(2025, 3, 15)
+        },
+        {
+            id: 203,
+            text: 'Performance optimization complete - reduced response times by 40%. Ready for production.',
+            author: ProfileObject[0],
+            createdAt: new Date(2025, 3, 20)
+        },
+        {
+            id: 204,
+            text: 'Final smoke tests passed. Documentation updated in developer portal.',
+            author: ProfileObject[3],
+            createdAt: new Date(2025, 3, 25)
+        }
+      ]
     }
   ];
   

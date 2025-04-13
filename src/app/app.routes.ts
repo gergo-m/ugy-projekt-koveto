@@ -3,7 +3,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ProjectDetailsComponent } from './pages/projects/projectdetails/projectdetails.component';
-import { TaskdetailsComponent } from './pages/tasks/taskdetails/taskdetails.component';
+import { TaskDetailsComponent } from './pages/tasks/taskdetails/taskdetails.component';
 import { UserlistComponent } from './pages/userlist/userlist.component';
 import { PageNotFoundComponent } from './shared/page-not-found/pagenotfound.component';
 
@@ -38,11 +38,15 @@ export const routes: Routes = [
     },
     {
         path: 'taskdetails', title: 'Task details',
-        loadComponent: () => import('./pages/tasks/taskdetails/taskdetails.component').then(m => m.TaskdetailsComponent)
+        loadComponent: () => import('./pages/tasks/taskdetails/taskdetails.component').then(m => m.TaskDetailsComponent)
     },
     {
         path: 'tasklist', title: 'Tasks',
         loadComponent: () => import('./pages/tasks/tasklist/tasklist.component').then(m => m.TasklistComponent)
+    },
+    {
+        path: 'tasks/:id', title: 'Task details',
+        loadComponent: () => import('./pages/tasks/taskdetails/taskdetails.component').then(m => m.TaskDetailsComponent)
     },
     {
         path: 'userlist', title: 'Users',

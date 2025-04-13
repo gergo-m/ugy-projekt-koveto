@@ -9,6 +9,9 @@ import { MatOptionModule } from '@angular/material/core';
 import { DateFormatterPipe } from '../../../shared/pipes/date.pipe';
 import { MatTableModule } from '@angular/material/table';
 import { NgClass } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tasklist',
@@ -18,6 +21,7 @@ import { NgClass } from '@angular/common';
     MatSelectModule,
     MatOptionModule,
     MatTableModule,
+    MatIconModule,
     DateFormatterPipe,
     NgClass
   ],
@@ -28,7 +32,7 @@ export class TasklistComponent {
   projects = ProjectObject;
   selectedProjectId: number | null = null;
   tasks: Task[] = [];
-  
+
   statusOptions = Object.values(TaskStatus);
   priorityOptions = Object.values(TaskPriority);
   
@@ -46,16 +50,15 @@ export class TasklistComponent {
     [TaskPriority.HIGHEST]: 'Highest'
   };
 
+  constructor(private router: Router) {}
+
   onProjectSelect(): void {
     if (this.selectedProjectId !== null) {
       this.tasks = TaskObject.filter(task => task.projectId === this.selectedProjectId);
     }
   }
 
-  updateTask(task: Task): void {
-    // Here you would typically call a service to update the task
-    console.log('Updated task:', task);
-  }
+  updateTask(task: Task): void {}
 
   getStatusClass(status: TaskStatus): string {
     switch (status) {
@@ -86,5 +89,8 @@ export class TasklistComponent {
         return '';
     }
   }
-  
+
+  viewTaskDetails(taskId: number): void {
+    this.router.navigate(['/tasks', taskId]);
+  }  
 }

@@ -1,4 +1,5 @@
 import { User } from "./User";
+import { Comment } from "./Comment";
 
 export enum TaskStatus {
   NOT_STARTED = 'not_started',
@@ -21,6 +22,7 @@ export interface Task {
     status: TaskStatus;
     priority: TaskPriority;
     dueDate: Date;
-    assignedTo?: User;
+    assignedTo: User;
     description?: string;
+    comments: Comment[];
   }
