@@ -1,25 +1,35 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'dateFormatter'
+  name: 'dateFormatter',
+  standalone: true,
 })
 export class DateFormatterPipe implements PipeTransform {
-  transform(value: string): string {
-    if (!value) return "";
-
-    try {
-      const date = new Date(value);
-      if (isNaN(date.getTime())) {
-        return value;
-      }
-
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-
-      return `${year}-${month}-${day}`;
-    } catch (error) {
-      return value;
+  transform(value: Date | string | null): string {
+    if (!value) {
+      return '';
     }
+
+    const date = new Date(value);
+
+    const day = date.getDate();
+    const year = date.getFullYear();
+    const month = this.getMonthAbbreviation(date.getMonth());
+    const weekday = this.getWeekdayName(date.getDay());
+
+    return `${month} ${day}, ${year} (${weekday})`;
+  }
+
+  private getMonthAbbreviation(monthIndex: number): string {
+    const months = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    ];
+    return months[monthIndex];
+  }
+
+  private getWeekdayName(dayIndex: number): string {
+    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    return weekdays[dayIndex];
   }
 }

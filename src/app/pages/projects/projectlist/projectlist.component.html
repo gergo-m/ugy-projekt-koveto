@@ -1,56 +1,70 @@
-<div class="completed-container">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Completed Learning Tasks</mat-card-title>
-        <div class="spacer"></div>
-        <button mat-raised-button color="warn" 
-                [disabled]="completedTasks.length === 0"
-                (click)="clearAllTasks()">
-          <mat-icon>delete_sweep</mat-icon> Clear All
-        </button>
-      </mat-card-header>
-      
-      <mat-card-content>
-        <table mat-table [dataSource]="completedTasks" class="mat-elevation-z2">
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>Task</th>
-            <td mat-cell *matCellDef="let task" class="completed-task">{{task.name}}</td>
-          </ng-container>
-          
-          <ng-container matColumnDef="date">
-            <th mat-header-cell *matHeaderCellDef>Completion Date</th>
-            <td mat-cell *matCellDef="let task">{{task.date | dateFormatter}}</td>
-          </ng-container>
-          
-          <ng-container matColumnDef="time">
-            <th mat-header-cell *matHeaderCellDef>Time Spent</th>
-            <td mat-cell *matCellDef="let task">{{task.time}}</td>
-          </ng-container>
-          
-          <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef>Actions</th>
-            <td mat-cell *matCellDef="let task; let i = index">
-              <button mat-icon-button color="warn" (click)="deleteTask(i)" aria-label="Delete task">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-          
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4">No completed tasks</td>
-          </tr>
-        </table>
-      </mat-card-content>
-    </mat-card>
+<div class="project-list-container">
+  <div class="header-row">
+    <h1>My Projects</h1>
 
-    <mat-table>
-      <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-        <mat-cell *matCellDef="let project">{{ project.name }}</mat-cell>
-      </ng-container>
-      <!-- Add more columns -->
-    </mat-table>
+    <mat-form-field appearance="outline">
+      <mat-label>Filter by Status</mat-label>
+      <mat-select [(value)]="selectedFilter">
+        <mat-option value="all">All Projects</mat-option>
+        <mat-option value="upcoming">Upcoming</mat-option>
+        <mat-option value="ongoing">Ongoing</mat-option>
+        <mat-option value="overdue">Overdue</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-fab color="primary" (click)="openAddProjectDialog()">
+      <mat-icon>add</mat-icon>
+    </button>
   </div>
+
+  <div class="project-grid">
+    @for (project of filteredProjects; track project.id) {
+      <mat-card class="project-card">
+        <mat-card-header>
+          <mat-card-title>{{ project.name }}</mat-card-title>
+          <mat-card-subtitle>
+            <mat-icon>play_arrow</mat-icon>
+            @if (getProjectStatus(project) === 'upcoming') {
+              <span>{{project.start | dateFormatter}} (in {{getDaysUntil(project.start)}} days)</span>
+            } @else {
+              <span>{{project.start | dateFormatter}} ({{getDaysUntil(project.start)}} days ago)</span>
+            }
+          </mat-card-subtitle>
+          <mat-card-subtitle>
+            <mat-icon>flag</mat-icon>
+            @if (getProjectStatus(project) === 'overdue') {
+              <span>{{project.deadline | dateFormatter}} ({{getDaysRemaining(project.deadline)*-1}} days ago)</span>
+            } @else if (getProjectStatus(project) === 'upcoming') {
+              <span>{{project.deadline | dateFormatter}} (in {{getDaysRemaining(project.deadline)}} days)</span>
+            } @else {
+              <span>{{project.deadline | dateFormatter}} ({{getDaysRemaining(project.deadline)}} days left)</span>
+            }
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p class="project-description">{{ project.description }}</p>
+
+          <div class="participants-sections">
+            <h4>Team Members</h4>
+            <div class="participants-list">
+              @for (user of project.participants; track user.id) {
+                <div class="participant-avatar">
+                  {{ getInitials(user.name.first_name, user.name.last_name) }}
+                </div>
+              }
+            </div>
+          </div>
+
+          <div class="progress-section">
+            <mat-progress-bar
+              mode="determinate"
+              [value]="getProgress(project)"
+              [style.--progress-color]="getProgressColor(getProgress(project))">
+            </mat-progress-bar>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+</div>

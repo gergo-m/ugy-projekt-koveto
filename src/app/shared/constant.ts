@@ -1,3 +1,6 @@
+import { User } from './models/User';
+import { Project } from './models/Project';
+
 export const ProfileObject = [
     {
         'id': 0,
@@ -134,5 +137,32 @@ export const ProfileObject = [
                 'overdue': 0,
             }
         }
+    }
+];
+
+export const ProjectObject = [
+    {
+        id: 0,
+        name: "Website Redesign",
+        description: "A complete overhaul of the company website to improve user experience and modernize the design.",
+        start: new Date(2025, 2, 10),
+        deadline: new Date(2025, 3, 15),
+        participants: [ProfileObject[0], ProfileObject[1]]
+    },
+    {
+        id: 1,
+        name: "Mobile App Development",
+        description: "Developing a cross-platform mobile app for better customer engagement.",
+        start: new Date(2025, 4, 1),
+        deadline: new Date(2025, 4, 10),
+        participants: [ProfileObject[2]]
+    },
+    {
+        id: 2,
+        name: "Image Analysis Automation",
+        description: "Automation of our image analysis procedure.",
+        start: new Date(2025, 1, 20),
+        deadline: new Date(2025, 2, 28),
+        participants: [ProfileObject[0], ProfileObject[2], ProfileObject[3]]
     }
 ];

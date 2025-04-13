@@ -1,56 +1,101 @@
-.completed-container {
-    max-width: 800px;
-    margin: 20px auto;
-  }
-  
-  mat-card {
-    padding: 0;
-  }
-  
-  mat-card-header {
-    background-color: #f5f5f5;
-    padding: 16px;
+/* Container */
+.project-list-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  /* Header */
+  .header-row {
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+
+    h1 {
+      margin: 0;
+      flex-grow: 1;
+    }
+
+    mat-form-field {
+      width: 200px;
+    }
   }
-  
-  .spacer {
-    flex: 1 1 auto;
+
+  /* Project list */
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
   }
-  
-  mat-card-content {
-    padding: 16px;
+
+  .project-card {
+    background: #2d2d3d;
+    color: #e0e0e0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+    }
+
+    mat-card-subtitle {
+      display: flex;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    mat-icon {
+      margin-right: 8px;
+      margin-bottom: 3px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .project-description {
+      color: #a0a0a0;
+      margin: 1rem 0;
+    }
+
+    .participants-section {
+      margin: 1.5rem 0;
+
+      h4 {
+        margin: 0 0 1rem 0;
+        font-weight: 500;
+      }
+
+      .participants-list {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+
+      .participant-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-color: #5a4af7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+      }
+    }
+
+    .progress-section {
+      margin-top: 1.5rem;
+
+      mat-progress-bar {
+        height: 8px;
+        border-radius: 4px;
+      }
+
+      mat-progress-bar-fill {
+        background-color: var(--progress-color, green) !important; /* Default to green */
+        transition: background-color 0.3s ease; /* Smooth transition */
+      }
+    }
   }
-  
-  table {
-    width: 100%;
-  }
-  
-  .completed-task {
-    text-decoration: line-through;
-    color: #757575;
-  }
-  
-  .mat-column-actions {
-    width: 80px;
-    text-align: center;
-  }
-  
-  .mat-column-time {
-    width: 120px;
-  }
-  
-  .mat-column-date {
-    width: 150px;
-  }
-  
-  tr.mat-mdc-row:hover {
-    background: whitesmoke;
-  }
-  
-  .mat-mdc-no-data-row {
-    text-align: center;
-    font-style: italic;
-    color: #757575;
-    padding: 16px 0;
-  }
+}
