@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { ProjectdetailsComponent } from './pages/projects/projectdetails/projectdetails.component';
+import { ProjectDetailsComponent } from './pages/projects/projectdetails/projectdetails.component';
 import { TaskdetailsComponent } from './pages/tasks/taskdetails/taskdetails.component';
 import { UserlistComponent } from './pages/userlist/userlist.component';
 import { PageNotFoundComponent } from './shared/page-not-found/pagenotfound.component';
@@ -22,11 +22,15 @@ export const routes: Routes = [
     },
     {
         path: 'projectdetails', title: 'Project details',
-        loadComponent: () => import('./pages/projects/projectdetails/projectdetails.component').then(m => m.ProjectdetailsComponent)
+        loadComponent: () => import('./pages/projects/projectdetails/projectdetails.component').then(m => m.ProjectDetailsComponent)
     },
     {
         path: 'projectlist', title: 'Projects',
         loadComponent: () => import('./pages/projects/projectlist/projectlist.component').then(m => m.ProjectlistComponent)
+    },
+    {
+        path: 'projects/:id', title: 'Project details',
+        loadComponent: () => import('./pages/projects/projectdetails/projectdetails.component').then(m => m.ProjectDetailsComponent)
     },
     {
         path: 'register', title: 'Register',

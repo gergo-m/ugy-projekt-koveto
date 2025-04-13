@@ -1,3 +1,6 @@
+$blue-accent-color: #0984e3;
+$border-color: #404040;
+
 /* Container */
 .profile-container {
   max-width: 1200px;
@@ -16,7 +19,7 @@
   justify-content: flex-start;
   align-items: center;
   padding: 2rem;
-  border-bottom: 1px solid #404040;
+  border-bottom: 1px solid $border-color;
 
   .header-content {
     display: flex;
@@ -68,7 +71,7 @@
     font-size: 1.1rem;
 
     mat-icon {
-      color: #0984e3;
+      color: $blue-accent-color;
     }
 
     a {
@@ -107,7 +110,7 @@
     color: #e0e0e0;
 
     mat-card-header {
-      border-bottom: 1px solid #404040;
+      border-bottom: 1px solid $border-color;
       padding-bottom: 1rem;
       margin-bottom: 1rem;
 
@@ -149,7 +152,7 @@
         .completion-value {
           font-size: 1.5rem;
           font-weight: 500;
-          color: #0984e3;
+          color: $blue-accent-color;
         }
       }
 

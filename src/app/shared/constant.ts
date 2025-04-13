@@ -146,7 +146,7 @@ export const ProjectObject = [
         name: "Website Redesign",
         description: "A complete overhaul of the company website to improve user experience and modernize the design.",
         start: new Date(2025, 2, 10),
-        deadline: new Date(2025, 3, 15),
+        deadline: new Date(2025, 3, 25),
         participants: [ProfileObject[0], ProfileObject[1]]
     },
     {

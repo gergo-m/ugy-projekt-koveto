@@ -1,1 +1,64 @@
-<p>projectdetails works!</p>
+<div class="project-details-container">
+    <mat-card>
+      <button mat-icon-button (click)="back()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+  
+      <mat-card-header>
+        <mat-card-title>{{project.name}}</mat-card-title>
+        <mat-card-subtitle>
+          <span class="status-badge">{{getProjectStatus()}}</span>
+        </mat-card-subtitle>
+      </mat-card-header>
+  
+      <mat-card-content>
+        <div class="project-meta">
+          <div class="dates">
+            <div>
+                <mat-icon>play_arrow</mat-icon>
+                @if (getProjectStatus().toLowerCase() === 'upcoming') {
+                    <span>{{project.start | dateFormatter}} (in {{getDaysUntil(project.start)}} days)</span>
+                } @else {
+                    <span>{{project.start | dateFormatter}} ({{getDaysUntil(project.start)}} days ago)</span>
+                }
+            </div>
+            <div>
+                <mat-icon>flag</mat-icon>
+                @if (getProjectStatus().toLowerCase() === 'overdue') {
+                  <span>{{project.deadline | dateFormatter}} ({{getDaysRemaining(project.deadline)*-1}} days ago)</span>
+                } @else if (getProjectStatus().toLowerCase() === 'upcoming') {
+                  <span>{{project.deadline | dateFormatter}} (in {{getDaysRemaining(project.deadline)}} days)</span>
+                } @else {
+                  <span>{{project.deadline | dateFormatter}} ({{getDaysRemaining(project.deadline)}} days left)</span>
+                }
+            </div>
+          </div>
+  
+          <div class="progress-section">
+            <mat-progress-bar
+              mode="determinate"
+              [value]="getProgress()">
+            </mat-progress-bar>
+            <span class="progress-text">{{getProgress()}}% complete</span>
+          </div>
+        </div>
+  
+        <h3>Description</h3>
+        <p class="description">{{project.description}}</p>
+  
+        <h3>Team Members</h3>
+        <div class="participants-grid">
+            @for (user of project.participants; track user.id) {
+                <div class="participant-card">
+                    <div class="avatar">{{getInitials(user.name.first_name, user.name.last_name)}}</div>
+                    <div class="user-info">
+                      <div class="name">{{user.name.first_name}} {{user.name.last_name}}</div>
+                      <div class="role">{{user.account.role}}</div>
+                    </div>
+                </div>
+            }
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  

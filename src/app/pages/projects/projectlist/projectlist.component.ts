@@ -14,6 +14,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { RouterLink } from '@angular/router';
 // import { AddProjectDialogComponent } from './add-project-dialog/add-project-dialog.component';
 
 @Component({
@@ -21,6 +22,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   standalone: true,
   imports: [
     CommonModule,
+    RouterLink,
     FormsModule,
     DateFormatterPipe,
     MatCardModule,

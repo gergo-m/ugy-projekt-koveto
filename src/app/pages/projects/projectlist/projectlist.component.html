@@ -19,7 +19,7 @@
 
   <div class="project-grid">
     @for (project of filteredProjects; track project.id) {
-      <mat-card class="project-card">
+      <mat-card class="project-card" [routerLink]="['/projects', project.id]">
         <mat-card-header>
           <mat-card-title>{{ project.name }}</mat-card-title>
           <mat-card-subtitle>
