@@ -110,9 +110,7 @@ export class RegisterComponent {
     console.log('New user:', newUser);
     console.log('Form value:', this.registerForm.value);
 
-    setTimeout(() => {
-      this.router.navigateByUrl('/dashboard');
-    }, 2000);
+    this.router.navigateByUrl('/dashboard');
   }
 
   hasErrors(formControl: string) {

@@ -6,7 +6,7 @@ export const ProfileObject = [
     {
         'id': 0,
         'name': {
-            'first_name': "Johnathan",
+            'first_name': "Jonathan",
             'last_name': "Doe"
         },
         'email': "johndoe97@example.com",

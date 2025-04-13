@@ -53,9 +53,7 @@ export class LoginComponent {
     
     localStorage.setItem('isLoggedIn', 'true');
     
-    setTimeout(() => {
-      this.router.navigate(['/dashboard']);
-    }, 3000);
+    this.router.navigate(['/dashboard']);
   }
 
   hasErrors(formControl: string) {
