@@ -128,4 +128,11 @@ export class RegisterComponent {
     const rePassword = this.registerForm.get('rePassword')?.value;
     return password === rePassword;
   }
+
+  updateBodyBackground(): void {
+    const theme = this.registerForm.get('preferences.theme')?.value;
+  
+    document.body.classList.remove('dark-theme', 'light-theme');
+    document.body.classList.add(theme === 'dark' ? 'dark-theme' : 'light-theme');
+  }
 }
