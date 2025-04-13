@@ -1,36 +1,52 @@
 <div class="login-container">
-    <h1>Login</h1>
+    <h1 class="title">Log in to continue!</h1>
     
     @if (isLoading) {
       <div class="loading-container">
-        <h2>Login in progress</h2>
-        <mat-spinner diameter="50"></mat-spinner>
-        <p>Please wait...</p>
+        <h2>Processing your data</h2>
+        <mat-spinner diameter="60"></mat-spinner>
+        <p>Hold tight, we're logging you in...</p>
       </div>
     }
   
-    @if (showLoginForm) {
+    @if (showForm) {
       <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-form">
         <mat-form-field appearance="outline">
-          <mat-label>Email</mat-label>
-          <input matInput type="email" [formControl]="email">
-          <mat-icon matSuffix>email</mat-icon>
+          <mat-label>Email address</mat-label>
+          <input matInput type="email" formControlName="email">
+          <mat-icon matSuffix>alternate_email</mat-icon>
+          @if (hasErrors('email')) {
+            <div class="error-message">
+              @if (getErrors('email')?.['email']) {
+                <small>Please enter a valid email address.</small>
+              }
+            </div>
+          }
         </mat-form-field>
   
         <mat-form-field appearance="outline">
           <mat-label>Password</mat-label>
-          <input matInput type="password" [formControl]="password">
+          <input matInput type="password" formControlName="password">
           <mat-icon matSuffix>lock</mat-icon>
+          @if (hasErrors('password')) {
+            <div class="error-message">
+              @if (getErrors('password')?.['minlength']) {
+                <small>At least 8 characters required.</small>
+              }
+            </div>
+          }
         </mat-form-field>
     
         @if (loginError) {
-          <div class="error-message">
-            {{ loginError }}
+          <div class="error-message general-error">
+            <p class="error-text">{{ loginError }}</p>
           </div>
         }
-    
-        <button mat-flat-button color="primary" type="submit">Login</button>
-        <button mat-flat-button [routerLink]="['/register']">Register</button>
+        
+        <div class="buttons-row">
+          <button mat-flat-button color="accent" type="submit" [disabled]="loginForm.invalid">Login</button>
+          <button mat-flat-button color="warn" [routerLink]="['/register']">Don't have an account? Register</button>
+        </div>
       </form>
     }
   </div>

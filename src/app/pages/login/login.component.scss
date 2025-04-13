@@ -1,42 +1,76 @@
+/* Container */
 .login-container {
-    max-width: 400px;
-    margin: 40px auto;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    text-align: center;
-  
-    h1 {
-      margin-bottom: 20px;
-      color: #3f51b5;
-    }
-  }
-  
-  .login-form {
-    display: flex;
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 30px;
+  border-radius: 12px;
+  background-color: #2c2c3e;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  color: #f0f0f0;
+}
+
+.title {
+  margin-bottom: 30px;
+}
+
+/* Form inputs */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+/* Error messages */
+.error-message {
+  color: #ff6b6b;
+  font-size: 13px;
+}
+
+.general-error {
+  margin-top: -10px;
+}
+
+.error-text {
+  font-size: 15px;
+}
+
+/* Buttons */
+.buttons-row {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+button[color="accent"] {
+  background-color: #00b894;
+}
+
+button[color="warn"] {
+  background-color: #42425e;
+  color: #dddddd;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 576px) {
+  .name-row, .buttons-row {
     flex-direction: column;
     gap: 16px;
-  }
-
-  .error-message {
-    color: #f44336;
-    margin-bottom: 16px;
-  }
-  
-  .loading-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
-    margin: 20px 0;
-    
-    h2 {
-      margin-bottom: 20px;
-      color: #3f51b5;
-    }
-    
-    p {
-      margin-top: 20px;
-      font-size: 16px;
-    }
+    margin-top: -5px;
+    padding-bottom:-5px;
   }
+}
