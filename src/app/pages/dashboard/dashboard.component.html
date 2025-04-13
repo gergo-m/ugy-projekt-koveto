@@ -1,13 +1,60 @@
-<div class="container">
-    <h1>Welcome to DevTracker!</h1>
-    <p>Track and manage your projects efficiently</p>
-    <button mat-flat-button class="projects" (click)="changePageProjects()">View My Projects</button>
-
-    @if (!isLoggedIn) {
-        <button mat-flat-button color="accent" [routerLink]="['/login']" class="projects">Login</button>
-    }
-
-    @if (isLoggedIn) {
-        <button mat-flat-button color="accent" [routerLink]="['/profile']" class="projects">My Profile</button>
-    }
-</div>
+<div class="dashboard-container">
+    <mat-card class="welcome-card">
+      <mat-card-header>
+        <mat-card-title>{{ getWelcomeMessage() }}, {{ user.name.first_name }}!</mat-card-title>
+        <mat-card-subtitle>Welcome to DevTracker</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Track your projects, manage tasks, and collaborate with your team efficiently.</p>
+        <p class="action-text">Get started by exploring:</p>
+        <div class="action-buttons">
+          <button mat-raised-button color="primary" routerLink="/projectlist">View Projects</button>
+          <button mat-raised-button color="accent" routerLink="/tasklist">Manage Tasks</button>
+          <button mat-raised-button color="warn" routerLink="/profile">Your Profile</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  
+    <div class="stats-section">
+      <h2>Quick Stats</h2>
+      <div class="stats-grid">
+        <mat-card class="stat-card">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>folder</mat-icon>
+            <mat-card-title>{{ user.statistics.projects.total }}</mat-card-title>
+            <mat-card-subtitle>Total Projects</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+  
+        <mat-card class="stat-card">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>check_circle</mat-icon>
+            <mat-card-title>{{ user.statistics.tasks.assigned }}</mat-card-title>
+            <mat-card-subtitle>Total Tasks</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+  
+        <mat-card class="stat-card">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>done_all</mat-icon>
+            <mat-card-title>{{ user.statistics.tasks.completed }}</mat-card-title>
+            <mat-card-subtitle>Completed Tasks</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+  
+        <mat-card class="stat-card">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>pending</mat-icon>
+            <mat-card-title>{{ user.statistics.tasks.pending }}</mat-card-title>
+            <mat-card-subtitle>Pending Tasks</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+      </div>
+    </div>
+  
+    <!-- Footer Section -->
+    <footer class="footer">
+        © {{ currentYear }} DevTracker. All rights reserved.
+    </footer>
+  </div>
+  
