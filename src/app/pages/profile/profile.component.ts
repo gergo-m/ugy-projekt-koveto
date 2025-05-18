@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProfileObject } from '../../shared/constant';
+import { UserService } from '../../shared/services/user.service';
 import { User } from '../../shared/models/User';
-
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
@@ -24,31 +24,20 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent implements OnInit {
-  ProfileObject: User[] = ProfileObject;
-  selectedIndex: number = 0;
+  private userService = inject(UserService);
 
-  getFullName(): string {
-    const user = this.ProfileObject[this.selectedIndex];
+  profile$ = this.userService.getProfileWithStats();
+
+  ngOnInit(): void {}
+
+  getFullName(user: User): string {
     return `${user.name.first_name} ${user.name.last_name}`;
   }
 
-  getUserRole(): string {
-    return this.ProfileObject[this.selectedIndex].account.role;
-  }
-
-  getCompletionRate(): string {
-    const tasks = this.ProfileObject[this.selectedIndex].statistics.tasks;
-    if (tasks.assigned === 0) {
+  getCompletionRate(tasksStats: { assigned: number, completed: number }): string {
+    if (!tasksStats || tasksStats.assigned === 0) {
       return '0.00';
     }
-    return ((tasks.completed / tasks.assigned) * 100).toFixed(2);
-  }
-
-  ngOnInit(): void {
-    this.selectedIndex = 0;
-  }
-
-  reload(index: number): void {
-    this.selectedIndex = index;
+    return ((tasksStats.completed / tasksStats.assigned) * 100).toFixed(2);
   }
 }

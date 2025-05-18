@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { UserService } from '../../shared/services/user.service';
+// import { UserService } from '../../shared/services/userlist.service';
 import { User } from '../../shared/models/User';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,7 +22,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule
   ]
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent /* implements OnInit */ {
+  /*
   private userService = inject(UserService);
   users$: Observable<User[]> = this.userService.getUsers();
 
@@ -58,8 +59,10 @@ export class UserListComponent implements OnInit {
         this.userService.addUser(newUser).then(() => {});
       }
     });
+    
   }
 
+  
   openEditUserDialog(user: User, event: Event): void {
     event.stopPropagation();
     const dialogRef = this.dialog.open(EditUserDialogComponent, {
@@ -78,4 +81,5 @@ export class UserListComponent implements OnInit {
     event.stopPropagation();
     this.userService.deleteUser(userId).then(() => {});
   }
+    */
 }

@@ -70,3 +70,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: #a0a0a0;
   }
 }
+
+.status-badge {
+  margin-left: 1rem;
+  padding: 0.20rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  text-transform: capitalize;
+  &.status-ongoing    { background: #00b894; color: #fff; }
+  &.status-upcoming   { background: #0984e3; color: #fff; }
+  &.status-overdue    { background: #d63031; color: #fff; }
+}

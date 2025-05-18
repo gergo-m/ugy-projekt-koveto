@@ -4,7 +4,7 @@ import { Task, TaskPriority, TaskStatus } from './models/Task';
 
 export const ProfileObject = [
     {
-        'id': 0,
+        'id': "0",
         'name': {
             'first_name': "Jonathan",
             'last_name': "Doe"
@@ -27,7 +27,8 @@ export const ProfileObject = [
             'projects': {
                 'total': 15,
                 'completed': 9,
-                'pending': 6
+                'pending': 6,
+                'overdue': 0,
             },
             'tasks': {
                 'assigned': 24,
@@ -38,7 +39,7 @@ export const ProfileObject = [
         }
     },
     {
-        'id': 1,
+        'id': "1",
         'name': {
             'first_name': "Alice",
             'last_name': "Bennett"
@@ -61,7 +62,8 @@ export const ProfileObject = [
             'projects': {
                 'total': 22,
                 'completed': 18,
-                'pending': 4
+                'pending': 4,
+                'overdue': 0,
             },
             'tasks': {
                 'assigned': 30,
@@ -72,7 +74,7 @@ export const ProfileObject = [
         }
     },
     {
-        'id': 2,
+        'id': "2",
         'name': {
             'first_name': "Robert",
             'last_name': "Chen"
@@ -95,7 +97,8 @@ export const ProfileObject = [
             'projects': {
                 'total': 12,
                 'completed': 7,
-                'pending': 5
+                'pending': 5,
+                'overdue': 0
             },
             'tasks': {
                 'assigned': 20,
@@ -106,7 +109,7 @@ export const ProfileObject = [
         }
     },
     {
-        'id': 3,
+        'id': "3",
         'name': {
             'first_name': "Sophia",
             'last_name': "Martinez"
@@ -129,7 +132,8 @@ export const ProfileObject = [
             'projects': {
                 'total': 28,
                 'completed': 21,
-                'pending': 7
+                'pending': 7,
+                'overdue': 0,
             },
             'tasks': {
                 'assigned': 35,
@@ -168,6 +172,7 @@ export const ProjectObject = [
     }
 ];
 
+/*
 export const TaskObject: Task[] = [
     {
       id: 0,
@@ -260,4 +265,5 @@ export const TaskObject: Task[] = [
       ]
     }
   ];
+  */
   

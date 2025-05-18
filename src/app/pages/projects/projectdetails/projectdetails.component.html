@@ -2,7 +2,17 @@
   @if (project != undefined) {
     <mat-card>  
       <mat-card-header>
-        <mat-card-title>{{project.name}}</mat-card-title>
+        <mat-card-title>
+          {{project.name}}
+        </mat-card-title>
+        <div class="card-actions">
+          <button mat-icon-button color="accent" (click)="openEditProjectDialog($event)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteProject($event)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
         <mat-card-subtitle>
           <span class="status-badge">{{getProjectStatus()}}</span>
         </mat-card-subtitle>
@@ -47,7 +57,7 @@
         <div class="participants-grid">
             @for (user of project.participants; track user.id) {
                 <div class="participant-card">
-                    <div class="avatar">{{getInitials(user.name.first_name, user.name.last_name)}}</div>
+                    <div class="avatar">{{ user.name.first_name | initials:user.name.last_name }}</div>
                     <div class="user-info">
                       <div class="name">{{user.name.first_name}} {{user.name.last_name}}</div>
                       <div class="role">{{user.account.role}}</div>

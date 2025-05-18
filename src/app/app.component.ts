@@ -7,6 +7,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
+import { AuthService } from './shared/services/auth.service';
+import { AngularFaviconService } from 'angular-favicon';
 
 @Component({
   selector: 'app-root',
@@ -25,20 +28,24 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent {
   title = 'ugy-projekt-koveto';
-  
-  @Output() logoutEvent = new EventEmitter<void>();
+  isLoggedIn = false;
+  private authSubscription?: Subscription;
 
-  get isLoggedIn(): boolean {
-    return localStorage.getItem('isLoggedIn') === 'true';
+  constructor(private authService: AuthService, private ngxFavicon: AngularFaviconService) {}
+
+  ngOnInit(): void {
+    this.authSubscription = this.authService.currentUser.subscribe(user => {
+      this.isLoggedIn = !!user;
+      localStorage.setItem("isLoggedIn", this.isLoggedIn ? "true" : "false");
+    })
   }
 
-  constructor() {}
+  ngOnDestroy(): void {
+    this.authSubscription?.unsubscribe();
+  }
 
   logout(): void {
-    this.logoutEvent.emit();
-
-    localStorage.setItem('isLoggedIn', 'false');
-    window.location.href = '/dashboard';
+    this.authService.signOut();
   }
 
   onToggleSidenav(sidenav: MatSidenav) {

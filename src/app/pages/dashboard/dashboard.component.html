@@ -1,7 +1,10 @@
 <div class="dashboard-container">
+  @if (profile$ | async; as profile) {
     <mat-card class="welcome-card">
       <mat-card-header>
-        <mat-card-title>{{ getWelcomeMessage() }}, {{ user.name.first_name }}!</mat-card-title>
+        <mat-card-title>
+          {{ getWelcomeMessage() }}, {{ profile.user?.name?.first_name || 'User' }}!
+        </mat-card-title>
         <mat-card-subtitle>Welcome to DevTracker</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
@@ -14,47 +17,53 @@
         </div>
       </mat-card-content>
     </mat-card>
-  
+
     <div class="stats-section">
       <h2>Quick Stats</h2>
       <div class="stats-grid">
         <mat-card class="stat-card">
           <mat-card-header>
             <mat-icon mat-card-avatar>folder</mat-icon>
-            <mat-card-title>{{ user.statistics.projects.total }}</mat-card-title>
+            <mat-card-title>{{ profile.statistics.projects.total }}</mat-card-title>
             <mat-card-subtitle>Total Projects</mat-card-subtitle>
           </mat-card-header>
         </mat-card>
-  
+
         <mat-card class="stat-card">
           <mat-card-header>
             <mat-icon mat-card-avatar>check_circle</mat-icon>
-            <mat-card-title>{{ user.statistics.tasks.assigned }}</mat-card-title>
+            <mat-card-title>{{ profile.statistics.tasks.assigned }}</mat-card-title>
             <mat-card-subtitle>Total Tasks</mat-card-subtitle>
           </mat-card-header>
         </mat-card>
-  
+
         <mat-card class="stat-card">
           <mat-card-header>
             <mat-icon mat-card-avatar>done_all</mat-icon>
-            <mat-card-title>{{ user.statistics.tasks.completed }}</mat-card-title>
+            <mat-card-title>{{ profile.statistics.tasks.completed }}</mat-card-title>
             <mat-card-subtitle>Completed Tasks</mat-card-subtitle>
           </mat-card-header>
         </mat-card>
-  
+
         <mat-card class="stat-card">
           <mat-card-header>
             <mat-icon mat-card-avatar>pending</mat-icon>
-            <mat-card-title>{{ user.statistics.tasks.pending }}</mat-card-title>
+            <mat-card-title>{{ profile.statistics.tasks.pending }}</mat-card-title>
             <mat-card-subtitle>Pending Tasks</mat-card-subtitle>
           </mat-card-header>
         </mat-card>
       </div>
     </div>
-  
-    <!-- Footer Section -->
-    <footer class="footer">
-        © {{ currentYear }} DevTracker. All rights reserved.
-    </footer>
-  </div>
-  
+  } @else {
+    <mat-card>
+      <mat-card-content>
+        <p>Loading dashboard...</p>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  <!-- Footer Section -->
+  <footer class="footer">
+    © {{ currentYear }} DevTracker. All rights reserved.
+  </footer>
+</div>

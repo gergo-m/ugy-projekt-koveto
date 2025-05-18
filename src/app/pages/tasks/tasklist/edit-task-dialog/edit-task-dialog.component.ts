@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Task, TaskPriority, TaskStatus } from '../../../../shared/models/Task';
+import { User } from '../../../../shared/models/User';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
@@ -35,18 +36,32 @@ import { MatInputModule } from '@angular/material/input';
       <mat-form-field appearance="outline" style="width:100%;">
         <mat-label>Status</mat-label>
         <mat-select formControlName="status">
-          <mat-option *ngFor="let status of statusOptions" [value]="status">{{ status }}</mat-option>
+          @for (status of statusOptions; track status) {
+            <mat-option [value]="status">{{ status }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline" style="width:100%;">
         <mat-label>Priority</mat-label>
         <mat-select formControlName="priority">
-          <mat-option *ngFor="let priority of priorityOptions" [value]="priority">{{ priority }}</mat-option>
+          @for (priority of priorityOptions; track priority) {
+            <mat-option [value]="priority">{{ priority }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline" style="width:100%;">
         <mat-label>Due Date</mat-label>
         <input matInput type="date" formControlName="dueDate" required>
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width:100%;">
+        <mat-label>Assigned To</mat-label>
+        <mat-select formControlName="assignedTo" required>
+          @for (user of data.participants; track user.id) {
+            <mat-option [value]="user">
+              {{ user.name.first_name }} {{ user.name.last_name }}
+            </mat-option>
+          }
+        </mat-select>
       </mat-form-field>
       <div mat-dialog-actions style="justify-content: flex-end;">
         <button mat-button type="button" (click)="dialogRef.close()">Cancel</button>
@@ -63,14 +78,15 @@ export class EditTaskDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<EditTaskDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Task
+    @Inject(MAT_DIALOG_DATA) public data: { task: Task, participants: User[] }
   ) {
     this.form = new FormGroup({
-      title: new FormControl(data.title, Validators.required),
-      description: new FormControl(data.description),
-      status: new FormControl(data.status, Validators.required),
-      priority: new FormControl(data.priority, Validators.required),
-      dueDate: new FormControl(this.formatDate(data.dueDate), Validators.required)
+      title: new FormControl(data.task.title, Validators.required),
+      description: new FormControl(data.task.description),
+      status: new FormControl(data.task.status, Validators.required),
+      priority: new FormControl(data.task.priority, Validators.required),
+      dueDate: new FormControl(this.formatDate(data.task.dueDate), Validators.required),
+      assignedTo: new FormControl(data.task.assignedTo, Validators.required)
     });
   }
 
@@ -81,7 +97,10 @@ export class EditTaskDialogComponent {
 
   submit() {
     if (this.form.valid) {
-      this.dialogRef.close({ ...this.data, ...this.form.value });
+      this.dialogRef.close({
+        ...this.data.task,
+        ...this.form.value
+      });
     }
   }
 }

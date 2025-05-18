@@ -11,6 +11,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { User } from '../../shared/models/User';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -53,7 +54,10 @@ export class RegisterComponent {
   showForm: boolean = true;
   registerError: string = '';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   register(): void {
     if (this.registerForm.invalid) {
@@ -72,45 +76,56 @@ export class RegisterComponent {
     this.isLoading = true;
     this.showForm = false;
 
-    const newUser: User = {
-      id: -1,
+    const userData: Partial<User> = {
       name: {
         first_name: this.registerForm.value.name?.first_name || '',
         last_name: this.registerForm.value.name?.last_name || ''
       },
       email: this.registerForm.value.email || '',
-      password: this.registerForm.value.password || '',
       bio: this.registerForm.value.bio || '',
       location: this.registerForm.value.location || '',
       account: {
         created_at: new Date(),
         last_login: new Date(),
-        role: 'user',
+        role: "user",
         preferences: {
-          theme: this.registerForm.value.preferences?.theme as "light" | "dark",
-          language: this.registerForm.value.preferences?.language as "en-US" | "hu-HU",
-          notifications: !!this.registerForm.value.preferences?.notifications
+          theme: "dark",
+          language: "en-US",
+          notifications: false
         }
       },
-      statistics: {
-        projects: {
-          total: 0,
-          completed: 0,
-          pending: 0
-        },
-        tasks: {
-          assigned: 0,
-          completed: 0,
-          pending: 0,
-          overdue: 0
-        }
-      }
+      projects: [],
+      tasks: []
     };
 
-    console.log('New user:', newUser);
-    console.log('Form value:', this.registerForm.value);
+    const email = this.registerForm.value.email || '';
+    const pw = this.registerForm.value.password || '';
 
-    this.router.navigateByUrl('/dashboard');
+    this.authService.register(email, pw, userData)
+    .then(userCredential => {
+      console.log("Registration successful:", userCredential.user);
+      this.authService.updateLoginStatus(true);
+      this.router.navigateByUrl("/dashboard");
+    })
+    .catch(error => {
+      console.error("Registration error:", error);
+      this.isLoading = false;
+      this.showForm = true;
+
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          this.registerError = "This email is already in use.";
+          break;
+        case "auth/invalid-email":
+          this.registerError = "Invalid email.";
+          break;
+        case "auth/weak-passwprd":
+          this.registerError = "The password is too weak. Use at least 6 characters.";
+          break;
+        default:
+          this.registerError = "An error occused during registration. Please try again later.";
+      }
+    })
   }
 
   hasErrors(formControl: string) {

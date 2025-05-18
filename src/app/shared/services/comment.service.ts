@@ -16,12 +16,12 @@ export class CommentService {
     return Promise.resolve(this.comments);
   }
 
-  getCommentById(id: number): Observable<Comment | undefined> {
+  getCommentById(id: string): Observable<Comment | undefined> {
     return new BehaviorSubject(this.comments.find(c => c.id === id)).asObservable();
   }
 
   addComment(comment: Comment): Promise<Comment> {
-    comment.id = Date.now();
+    comment.id = Date.now().toString();
     this.comments.push(comment);
     this.commentsSubject.next(this.comments);
     return Promise.resolve(comment);
@@ -36,7 +36,7 @@ export class CommentService {
     return new BehaviorSubject(updatedComment).asObservable();
   }
 
-  deleteComment(id: number): Promise<void> {
+  deleteComment(id: string): Promise<void> {
     this.comments = this.comments.filter(c => c.id !== id);
     this.commentsSubject.next(this.comments);
     return Promise.resolve();

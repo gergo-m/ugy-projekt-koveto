@@ -39,8 +39,8 @@ export class TaskDetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private taskService: TaskService) {}
 
   ngOnInit(): void {
-    const taskId = Number(this.route.snapshot.paramMap.get('id'));
-    this.taskService.getTaskById(taskId).subscribe(task => this.task = task);
+    const taskId = this.route.snapshot.paramMap.get('id');
+    this.taskService.getTaskById(taskId || '').subscribe(task => this.task = task);
   }
 
   getStatusClass(status: TaskStatus): string {

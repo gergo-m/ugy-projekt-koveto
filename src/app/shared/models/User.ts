@@ -2,7 +2,7 @@ import { Project } from "./Project";
 import { Task } from "./Task";
 
 export interface User {
-    id: number;
+    id: string;
     name: {
         first_name: string;
         last_name: string;
@@ -28,6 +28,7 @@ export interface User {
             total: number;
             completed: number;
             pending: number;
+            overdue: number;
         };
         tasks: {
             assigned: number;

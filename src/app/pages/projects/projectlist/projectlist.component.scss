@@ -34,6 +34,24 @@
     color: #e0e0e0;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 
+    mat-card-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .status-badge {
+      margin-left: 1rem;
+      padding: 0.20rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      text-transform: capitalize;
+      &.status-ongoing    { background: #00b894; color: #fff; }
+      &.status-upcoming   { background: #0984e3; color: #fff; }
+      &.status-overdue    { background: #d63031; color: #fff; }
+    }
+
+
     &:hover {
       transform: scale(1.02);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);

@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
-import { ProfileObject } from '../../shared/constant';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { UserService } from '../../shared/services/user.service';
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
   imports: [
     MatButtonModule,
     MatCardModule,
@@ -19,8 +20,9 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
+  private userService = inject(UserService);
 
-  user = ProfileObject[0];
+  profile$ = this.userService.getProfileWithStats();
   currentYear = new Date().getFullYear();
 
   getWelcomeMessage(): string {
@@ -34,15 +36,9 @@ export class DashboardComponent {
     }
   }
 
-  isLoggedIn = false;
-
   constructor(private router: Router) {}
 
-  ngOnInit(): void {
-    this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-  }
-
   changePageProjects() {
-    this.router.navigateByUrl("/projectlist")
+    this.router.navigateByUrl("/projectlist");
   }
 }

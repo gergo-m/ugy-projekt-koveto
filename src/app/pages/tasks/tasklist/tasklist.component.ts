@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Project } from '../../../shared/models/Project';
-import { ProjectObject } from '../../../shared/constant';
 import { Task, TaskStatus, TaskPriority } from '../../../shared/models/Task';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -17,6 +16,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddTaskDialogComponent } from './add-task-dialog/add-task-dialog.component';
 import { EditTaskDialogComponent } from './edit-task-dialog/edit-task-dialog.component';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
+import { ProjectService } from '../../../shared/services/project.service';
+import { UserService } from '../../../shared/services/user.service';
 
 @Component({
   selector: 'app-tasklist',
@@ -37,9 +38,11 @@ import { MatButtonModule, MatIconButton } from '@angular/material/button';
   styleUrls: ['./tasklist.component.scss']
 })
 export class TasklistComponent implements OnInit {
+  private projectService = inject(ProjectService);
   private taskService = inject(TaskService);
-  projects = ProjectObject;
-  selectedProjectId: number | null = null;
+  private userService = inject(UserService);
+  projects: Project[] = [];
+  selectedProjectId: string | null = null;
   tasks$: Observable<Task[]> = this.taskService.getTasks();
   statusOptions = Object.values(TaskStatus);
   priorityOptions = Object.values(TaskPriority);
@@ -58,22 +61,27 @@ export class TasklistComponent implements OnInit {
     [TaskPriority.HIGHEST]: 'Highest'
   };
 
+  currentUserId: string | null = null;
+
   constructor(private router: Router, taskService: TaskService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    // No need to subscribe here if using async pipe in template
+    this.userService.getCurrentUser().subscribe(user => {
+      this.currentUserId = user?.id || null;
+      this.projectService.getProjects().subscribe(projects => {
+        this.projects = projects.filter(project =>
+          project.participants.some(p => p.id === this.currentUserId)
+        );
+      });
+    });
   }
 
   onProjectSelect(): void {
-    if (this.selectedProjectId !== null) {
+    if (this.selectedProjectId) {
       this.tasks$ = this.taskService.getTasks().pipe(
         map(tasks => tasks.filter(task => task.projectId === this.selectedProjectId))
       );
     }
-  }
-
-  updateTask(task: Task) {
-    this.taskService.updateTask(task).subscribe();
   }
 
   getStatusClass(status: TaskStatus): string {
@@ -101,36 +109,43 @@ export class TasklistComponent implements OnInit {
   }
 
   openAddTaskDialog(): void {
+    const selectedProject = this.projects.find(p => p.id === this.selectedProjectId);
+    const participants = selectedProject ? selectedProject.participants : [];
     const dialogRef = this.dialog.open(AddTaskDialogComponent, {
       width: '400px',
-      panelClass: 'custom-dialog-panel'
+      panelClass: 'custom-dialog-panel',
+      data: { participants }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result && this.selectedProjectId) {
         this.taskService.addTask({
           ...result,
-          projectId: this.selectedProjectId,
+          projectId: this.selectedProjectId.toString(),
           comments: []
         }).then(() => {});
       }
     });
   }
 
-openEditTaskDialog(task: Task, event: Event): void {
-  event.stopPropagation();
-  const dialogRef = this.dialog.open(EditTaskDialogComponent, {
-    width: '400px',
-    data: task,
-      panelClass: 'custom-dialog-panel'
-  });
-  dialogRef.afterClosed().subscribe(result => {
-    if (result) {
-      this.taskService.updateTask(result).subscribe();
-    }
-  });
-}
 
-deleteTask(taskId: number, event: Event): void {
+  openEditTaskDialog(task: Task, event: Event): void {
+    event.stopPropagation();
+    const selectedProject = this.projects.find(p => p.id === this.selectedProjectId);
+    const participants = selectedProject ? selectedProject.participants : [];
+    const dialogRef = this.dialog.open(EditTaskDialogComponent, {
+      width: '400px',
+      data: { task, participants },
+      panelClass: 'custom-dialog-panel'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.taskService.updateTask(result).then(() => {});
+      }
+    });
+  }
+
+
+deleteTask(taskId: string, event: Event): void {
   event.stopPropagation();
   this.taskService.deleteTask(taskId).then(() => {});
 }

@@ -1,10 +1,10 @@
 <div class="project-list-container">
   <div class="header-row">
-    <h1>My Projects</h1>
+    <h1>Your Projects</h1>
 
     <mat-form-field appearance="outline">
       <mat-label>Filter by Status</mat-label>
-      <mat-select [(value)]="selectedFilter">
+      <mat-select [(value)]="selectedFilter" (selectionChange)="onFilterChange($event.value)">
         <mat-option value="all">All Projects</mat-option>
         <mat-option value="upcoming">Upcoming</mat-option>
         <mat-option value="ongoing">Ongoing</mat-option>
@@ -18,61 +18,68 @@
   </div>
 
   <div class="project-grid">
-    @for (project of filteredProjects; track project.id) {
-      <mat-card class="project-card" [routerLink]="['/projects', project.id]">
-        <mat-card-header>
-          <mat-card-title>{{ project.name }}</mat-card-title>
-          <mat-card-subtitle>
-            <mat-icon>play_arrow</mat-icon>
-            @if (getProjectStatus(project) === 'upcoming') {
-              <span>{{project.start | dateFormatter}} (in {{getDaysUntil(project.start)}} days)</span>
-            } @else {
-              <span>{{project.start | dateFormatter}} ({{getDaysUntil(project.start)}} days ago)</span>
-            }
-          </mat-card-subtitle>
-          <mat-card-subtitle>
-            <mat-icon>flag</mat-icon>
-            @if (getProjectStatus(project) === 'overdue') {
-              <span>{{project.deadline | dateFormatter}} ({{getDaysRemaining(project.deadline)*-1}} days ago)</span>
-            } @else if (getProjectStatus(project) === 'upcoming') {
-              <span>{{project.deadline | dateFormatter}} (in {{getDaysRemaining(project.deadline)}} days)</span>
-            } @else {
-              <span>{{project.deadline | dateFormatter}} ({{getDaysRemaining(project.deadline)}} days left)</span>
-            }
-          </mat-card-subtitle>
-          <div class="card-actions">
-            <button mat-icon-button color="accent" (click)="editProject(project, $event)">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button color="warn" (click)="deleteProject(project.id, $event)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </mat-card-header>
-
-        <mat-card-content>
-          <p class="project-description">{{ project.description }}</p>
-
-          <div class="participants-sections">
-            <h4>Team Members</h4>
-            <div class="participants-list">
-              @for (user of project.participants; track user.id) {
-                <div class="participant-avatar">
-                  {{ getInitials(user.name.first_name, user.name.last_name) }}
-                </div>
+    @if (filteredProjects$ | async; as projects) {
+      @for (project of projects; track project.id) {
+        <mat-card class="project-card" [routerLink]="['/projects', project.id]">
+          <mat-card-header>
+            <mat-card-title>
+              {{ project.name }}
+              <span class="status-badge status-{{getProjectStatus(project)}}">
+                {{ getProjectStatus(project) | titlecase }}
+              </span>
+            </mat-card-title>
+            <mat-card-subtitle>
+              <mat-icon>play_arrow</mat-icon>
+              @if (getProjectStatus(project) === 'upcoming') {
+                <span>{{project.start | dateFormatter}} (in {{getDaysUntil(project.start)}} days)</span>
+              } @else {
+                <span>{{project.start | dateFormatter}} ({{getDaysUntil(project.start)}} days ago)</span>
               }
+            </mat-card-subtitle>
+            <mat-card-subtitle>
+              <mat-icon>flag</mat-icon>
+              @if (getProjectStatus(project) === 'overdue') {
+                <span>{{project.deadline | dateFormatter}} ({{getDaysRemaining(project.deadline)*-1}} days ago)</span>
+              } @else if (getProjectStatus(project) === 'upcoming') {
+                <span>{{project.deadline | dateFormatter}} (in {{getDaysRemaining(project.deadline)}} days)</span>
+              } @else {
+                <span>{{project.deadline | dateFormatter}} ({{getDaysRemaining(project.deadline)}} days left)</span>
+              }
+            </mat-card-subtitle>
+            <div class="card-actions">
+              <button mat-icon-button color="accent" (click)="editProject(project, $event)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteProject(project.id, $event)">
+                <mat-icon>delete</mat-icon>
+              </button>
             </div>
-          </div>
+          </mat-card-header>
 
-          <div class="progress-section">
-            <mat-progress-bar
-              mode="determinate"
-              [value]="getProgress(project)"
-              [style.--progress-color]="getProgressColor(getProgress(project))">
-            </mat-progress-bar>
-          </div>
-        </mat-card-content>
-      </mat-card>
+          <mat-card-content>
+            <p class="project-description">{{ project.description }}</p>
+
+            <div class="participants-sections">
+              <h4>Team Members</h4>
+              <div class="participants-list">
+                @for (user of project.participants; track user.id) {
+                  <div class="participant-avatar">
+                    {{ user.name.first_name | initials:user.name.last_name }}
+                  </div>
+                }
+              </div>
+            </div>
+
+            <div class="progress-section">
+              <mat-progress-bar
+                mode="determinate"
+                [value]="getProgress(project)"
+                [style.--progress-color]="getProgressColor(getProgress(project))">
+              </mat-progress-bar>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
     }
   </div>
 </div>

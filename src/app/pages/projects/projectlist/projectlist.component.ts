@@ -1,8 +1,6 @@
-import { Component } from '@angular/core';
-import { User } from '../../../shared/models/User';
+import { Component, inject } from '@angular/core';
 import { Project } from '../../../shared/models/Project';
 import { ProjectService } from '../../../shared/services/project.service';
-import { ProjectObject } from '../../../shared/constant';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DateFormatterPipe } from "../../../shared/pipes/date.pipe";
@@ -18,6 +16,12 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterLink } from '@angular/router';
 import { AddProjectDialogComponent } from './add-project-dialog/add-project-dialog.component';
 import { EditProjectDialogComponent } from './edit-project-dialog/edit-project-dialog.component';
+import { UserService } from '../../../shared/services/user.service';
+import { User } from '../../../shared/models/User';
+import { InitialsPipe } from '../../../shared/pipes/initials.pipe';
+import { switchMap, map } from 'rxjs/operators';
+import { AuthService } from '../../../shared/services/auth.service';
+import { Observable, of, combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-projectlist',
@@ -34,16 +38,42 @@ import { EditProjectDialogComponent } from './edit-project-dialog/edit-project-d
     MatFormFieldModule,
     MatSelectModule,
     MatOptionModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    InitialsPipe
   ],
   templateUrl: './projectlist.component.html',
   styleUrl: './projectlist.component.scss'
 })
 export class ProjectlistComponent {
+  authService = inject(AuthService);
   projects: Project[] = [];
   selectedFilter = 'all';
+  users: User[] = [];
+  currentUser: User | null = null;
+  filteredProjects$: Observable<Project[]>;
+  userProjects = this.authService.currentUser.pipe(
+    switchMap(user =>
+      user ? this.projectService.getUserProjects(user.uid) : []
+    )
+  );
 
-  constructor(public dialog: MatDialog, private projectService: ProjectService) {}
+  constructor(
+    public dialog: MatDialog,
+    private userService: UserService,
+    private projectService: ProjectService
+  ) {
+    this.userService.getUsers().subscribe(users => this.users = users);
+    this.userService.getCurrentUser().subscribe(user => this.currentUser = user);
+
+    this.filteredProjects$ = this.userService.getCurrentUser().pipe(
+      switchMap(user => {
+        if (!user) return of([]);
+        return this.projectService.getUserProjects(user.id).pipe(
+          map(projects => this.applyStatusFilter(projects, this.selectedFilter))
+        );
+      })
+    );
+  }
 
   ngOnInit(): void {
     this.projectService.getProjects().subscribe(projects => {
@@ -51,12 +81,24 @@ export class ProjectlistComponent {
     });
   }
 
-  get filteredProjects(): Project[] {
+  onFilterChange(newFilter: string) {
+    this.selectedFilter = newFilter;
+    this.filteredProjects$ = this.userService.getCurrentUser().pipe(
+      switchMap(user => {
+        if (!user) return of([]);
+        return this.projectService.getUserProjects(user.id).pipe(
+          map(projects => this.applyStatusFilter(projects, this.selectedFilter))
+        );
+      })
+    );
+  }
+
+  applyStatusFilter(projects: Project[], filter: string): Project[] {
     const today = new Date();
-    return this.projects.filter(project => {
+    return projects.filter(project => {
       const start = new Date(project.start);
       const deadline = new Date(project.deadline);
-      switch (this.selectedFilter) {
+      switch (filter) {
         case 'upcoming': return start > today && deadline > today;
         case 'ongoing': return start <= today && deadline >= today;
         case 'overdue': return start <= today && deadline < today;
@@ -89,10 +131,8 @@ export class ProjectlistComponent {
     const start = new Date(project.start).getTime();
     const end = new Date(project.deadline).getTime();
     const now = Date.now();
-  
     if (now < start) return 0;
     if (now > end) return 100;
-  
     const totalDuration = end - start;
     const elapsedDuration = now - start;
     return Math.round((elapsedDuration / totalDuration) * 100);
@@ -108,23 +148,18 @@ export class ProjectlistComponent {
     }
   }
   
-
-  getInitials(firstName: string, lastName: string): string {
-    return `${firstName[0]}${lastName[0]}`.toUpperCase();
-  }
-
   openAddProjectDialog(): void {
     const dialogRef = this.dialog.open(AddProjectDialogComponent, {
       width: '400px',
-      panelClass: 'custom-dialog-panel'
+      panelClass: 'custom-dialog-panel',
+      data: {
+        users: this.users,
+        currentUser: this.currentUser
+      }
     });
-
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.projectService.addProject({
-          ...result,
-        participants: [],
-      }).then(() => {});
+        this.projectService.addProject(result).then(() => {});
       }
     });
   }
@@ -133,12 +168,16 @@ export class ProjectlistComponent {
     event.stopPropagation();
     const dialogRef = this.dialog.open(EditProjectDialogComponent, {
       width: '400px',
-      data: project,
+      data: {
+        project,
+        users: this.users,
+        currentUser: this.currentUser
+      },
       panelClass: 'custom-dialog-panel'
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.projectService.updateProject(result).subscribe();
+        this.projectService.updateProject(result).then(() => {});
       }
     });
   }
@@ -148,7 +187,7 @@ export class ProjectlistComponent {
     this.openEditProjectDialog(project, event);
   }
 
-  deleteProject(projectId: number, event: Event): void {
+  deleteProject(projectId: string, event: Event): void {
     event.stopPropagation();
     this.projectService.deleteProject(projectId).then(() => {});
   }
