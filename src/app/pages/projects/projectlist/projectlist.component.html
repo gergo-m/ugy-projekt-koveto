@@ -40,6 +40,14 @@
               <span>{{project.deadline | dateFormatter}} ({{getDaysRemaining(project.deadline)}} days left)</span>
             }
           </mat-card-subtitle>
+          <div class="card-actions">
+            <button mat-icon-button color="accent" (click)="editProject(project, $event)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteProject(project.id, $event)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </mat-card-header>
 
         <mat-card-content>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Project } from '../../../shared/models/Project';
-import { ProjectObject } from '../../../shared/constant';
+import { ProjectService } from '../../../shared/services/project.service';
 import { DateFormatterPipe } from '../../../shared/pipes/date.pipe';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,23 +20,27 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   styleUrls: ['./projectdetails.component.scss']
 })
 export class ProjectDetailsComponent implements OnInit {
-  project!: Project;
-  
-  constructor(private route: ActivatedRoute) {}
+  project!: Project | undefined;
 
-  ngOnInit() {
+  constructor(
+    private route: ActivatedRoute,
+    private projectService: ProjectService
+  ) {}
+
+  ngOnInit(): void {
     const projectId = Number(this.route.snapshot.paramMap.get('id'));
-    this.project = ProjectObject.find(p => p.id === projectId)!;
+    this.projectService.getProjectById(projectId).subscribe(project => {
+      this.project = project;
+    });
   }
 
   getProgress(): number {
+    if (!this.project) return 0;
     const start = new Date(this.project.start).getTime();
     const end = new Date(this.project.deadline).getTime();
     const now = Date.now();
-    
     if (now < start) return 0;
     if (now > end) return 100;
-    
     return Math.round(((now - start) / (end - start)) * 100);
   }
 
@@ -45,10 +49,10 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   getProjectStatus(): string {
+    if (!this.project) return '';
     const today = new Date();
     const start = new Date(this.project.start);
     const end = new Date(this.project.deadline);
-  
     if (today < start) return 'Upcoming';
     if (today > end) return 'Overdue';
     return 'Ongoing';

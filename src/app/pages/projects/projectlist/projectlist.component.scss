@@ -46,6 +46,12 @@
       margin-top: 4px;
     }
 
+    .card-actions {
+      margin-left: auto;
+      display: flex;
+      gap: 0.25rem;
+    }
+
     mat-icon {
       margin-right: 8px;
       margin-bottom: 3px;

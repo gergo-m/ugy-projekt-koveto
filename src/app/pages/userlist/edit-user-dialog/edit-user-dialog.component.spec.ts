@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProjectDetailsComponent } from './projectdetails.component';
+import { EditUserDialogComponent } from './edit-user-dialog.component';
 
-describe('ProjectdetailsComponent', () => {
-  let component: ProjectDetailsComponent;
-  let fixture: ComponentFixture<ProjectDetailsComponent>;
+describe('EditUserDialogComponent', () => {
+  let component: EditUserDialogComponent;
+  let fixture: ComponentFixture<EditUserDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProjectDetailsComponent]
+      imports: [EditUserDialogComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ProjectDetailsComponent);
+    fixture = TestBed.createComponent(EditUserDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

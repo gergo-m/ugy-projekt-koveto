@@ -4,7 +4,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ProjectDetailsComponent } from './pages/projects/projectdetails/projectdetails.component';
 import { TaskDetailsComponent } from './pages/tasks/taskdetails/taskdetails.component';
-import { UserlistComponent } from './pages/userlist/userlist.component';
+import { UserListComponent } from './pages/userlist/userlist.component';
 import { PageNotFoundComponent } from './shared/page-not-found/pagenotfound.component';
 
 export const routes: Routes = [
@@ -50,7 +50,7 @@ export const routes: Routes = [
     },
     {
         path: 'userlist', title: 'Users',
-        loadComponent: () => import('./pages/userlist/userlist.component').then(m => m.UserlistComponent)
+        loadComponent: () => import('./pages/userlist/userlist.component').then(m => m.UserListComponent)
     },
     {
         path: '',

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { User } from '../../../shared/models/User';
 import { Project } from '../../../shared/models/Project';
+import { ProjectService } from '../../../shared/services/project.service';
 import { ProjectObject } from '../../../shared/constant';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -15,7 +16,8 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterLink } from '@angular/router';
-// import { AddProjectDialogComponent } from './add-project-dialog/add-project-dialog.component';
+import { AddProjectDialogComponent } from './add-project-dialog/add-project-dialog.component';
+import { EditProjectDialogComponent } from './edit-project-dialog/edit-project-dialog.component';
 
 @Component({
   selector: 'app-projectlist',
@@ -38,10 +40,16 @@ import { RouterLink } from '@angular/router';
   styleUrl: './projectlist.component.scss'
 })
 export class ProjectlistComponent {
-  projects = ProjectObject;
+  projects: Project[] = [];
   selectedFilter = 'all';
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private projectService: ProjectService) {}
+
+  ngOnInit(): void {
+    this.projectService.getProjects().subscribe(projects => {
+      this.projects = projects;
+    });
+  }
 
   get filteredProjects(): Project[] {
     const today = new Date();
@@ -61,7 +69,6 @@ export class ProjectlistComponent {
     const today = new Date();
     const startDate = new Date(project.start);
     const deadline = new Date(project.deadline);
-
     if (today < startDate) return 'upcoming';
     if (today > deadline) return 'overdue';
     return 'ongoing';
@@ -84,21 +91,20 @@ export class ProjectlistComponent {
     const now = Date.now();
   
     if (now < start) return 0;
-  
     if (now > end) return 100;
   
     const totalDuration = end - start;
     const elapsedDuration = now - start;
-    return Math.round((elapsedDuration / totalDuration) * 100); // Return rounded percentage
+    return Math.round((elapsedDuration / totalDuration) * 100);
   }
 
   getProgressColor(progress: number): string {
     if (progress <= 20) {
-      return 'red'; // Low progress
+      return 'red';
     } else if (progress <= 50) {
-      return 'yellow'; // Medium progress
+      return 'yellow';
     } else {
-      return 'green'; // High progress
+      return 'green';
     }
   }
   
@@ -108,16 +114,42 @@ export class ProjectlistComponent {
   }
 
   openAddProjectDialog(): void {
-    /*
     const dialogRef = this.dialog.open(AddProjectDialogComponent, {
-      width: '500px'
+      width: '400px',
+      panelClass: 'custom-dialog-panel'
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.projects.push(result);
+        this.projectService.addProject({
+          ...result,
+        participants: [],
+      }).then(() => {});
       }
     });
-    */
+  }
+
+  openEditProjectDialog(project: Project, event: Event): void {
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(EditProjectDialogComponent, {
+      width: '400px',
+      data: project,
+      panelClass: 'custom-dialog-panel'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.projectService.updateProject(result).subscribe();
+      }
+    });
+  }
+
+  editProject(project: Project, event: Event): void {
+    event.stopPropagation();
+    this.openEditProjectDialog(project, event);
+  }
+
+  deleteProject(projectId: number, event: Event): void {
+    event.stopPropagation();
+    this.projectService.deleteProject(projectId).then(() => {});
   }
 }

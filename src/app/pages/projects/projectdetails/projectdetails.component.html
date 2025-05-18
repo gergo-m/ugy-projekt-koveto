@@ -1,4 +1,5 @@
 <div class="project-details-container">
+  @if (project != undefined) {
     <mat-card>  
       <mat-card-header>
         <mat-card-title>{{project.name}}</mat-card-title>
@@ -6,7 +7,7 @@
           <span class="status-badge">{{getProjectStatus()}}</span>
         </mat-card-subtitle>
       </mat-card-header>
-  
+
       <mat-card-content>
         <div class="project-meta">
           <div class="dates">
@@ -29,7 +30,7 @@
                 }
             </div>
           </div>
-  
+
           <div class="progress-section">
             <mat-progress-bar
               mode="determinate"
@@ -38,10 +39,10 @@
             <span class="progress-text">{{getProgress()}}% complete</span>
           </div>
         </div>
-  
+
         <h3>Description</h3>
         <p class="description">{{project.description}}</p>
-  
+
         <h3>Team Members</h3>
         <div class="participants-grid">
             @for (user of project.participants; track user.id) {
@@ -56,5 +57,5 @@
         </div>
       </mat-card-content>
     </mat-card>
-  </div>
-  
+  }
+</div>
