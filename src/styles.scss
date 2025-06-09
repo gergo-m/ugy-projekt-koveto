@@ -81,3 +81,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   &.status-upcoming   { background: #0984e3; color: #fff; }
   &.status-overdue    { background: #d63031; color: #fff; }
 }
+
+.cdk-overlay-container {
+  z-index: 100000 !important;
+  transform: none !important;
+  animation: none !important;
+}

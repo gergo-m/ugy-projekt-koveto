@@ -59,7 +59,7 @@ import { User } from '../../../../shared/models/User';
       </mat-form-field>
       <div mat-dialog-actions style="justify-content: flex-end;">
         <button mat-button type="button" (click)="dialogRef.close()">Cancel</button>
-        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">Add</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid" id="add-project-btn">Add</button>
       </div>
     </form>
   `
